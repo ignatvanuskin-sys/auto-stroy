@@ -42,7 +42,12 @@ export function buildProposalPdf(input: ProposalInput) {
     "BuildScope AI / construction sales automation demo",
   ];
   const content = ["BT", "/F1 12 Tf", "50 790 Td", "16 TL"]
-    .concat(lines.map((line, index) => `${index === 0 ? "/F1 15 Tf" : "/F1 10 Tf"} (${pdfEscape(line)}) Tj T*`))
+    .concat(
+      lines.map(
+        (line, index) =>
+          `${index === 0 ? "/F1 15 Tf" : "/F1 10 Tf"} (${pdfEscape(line)}) Tj T*`
+      )
+    )
     .concat(["ET"])
     .join("\n");
   const objects = [

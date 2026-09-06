@@ -49,17 +49,13 @@
       "compositePrimaryKeys": {
         "companies_id": {
           "name": "companies_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "companies_slug_unique": {
           "name": "companies_slug_unique",
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       },
       "checkConstraint": {}
@@ -139,12 +135,8 @@
           "name": "estimates_companyId_companies_id_fk",
           "tableFrom": "estimates",
           "tableTo": "companies",
-          "columnsFrom": [
-            "companyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["companyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -152,12 +144,8 @@
           "name": "estimates_leadId_leads_id_fk",
           "tableFrom": "estimates",
           "tableTo": "leads",
-          "columnsFrom": [
-            "leadId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["leadId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -165,9 +153,7 @@
       "compositePrimaryKeys": {
         "estimates_id": {
           "name": "estimates_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -249,12 +235,8 @@
           "name": "followups_companyId_companies_id_fk",
           "tableFrom": "followups",
           "tableTo": "companies",
-          "columnsFrom": [
-            "companyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["companyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -262,12 +244,8 @@
           "name": "followups_leadId_leads_id_fk",
           "tableFrom": "followups",
           "tableTo": "leads",
-          "columnsFrom": [
-            "leadId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["leadId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -275,9 +253,7 @@
       "compositePrimaryKeys": {
         "followups_id": {
           "name": "followups_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -343,12 +319,8 @@
           "name": "leadActivities_companyId_companies_id_fk",
           "tableFrom": "leadActivities",
           "tableTo": "companies",
-          "columnsFrom": [
-            "companyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["companyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -356,12 +328,8 @@
           "name": "leadActivities_leadId_leads_id_fk",
           "tableFrom": "leadActivities",
           "tableTo": "leads",
-          "columnsFrom": [
-            "leadId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["leadId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -369,9 +337,7 @@
       "compositePrimaryKeys": {
         "leadActivities_id": {
           "name": "leadActivities_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -601,12 +567,8 @@
           "name": "leads_companyId_companies_id_fk",
           "tableFrom": "leads",
           "tableTo": "companies",
-          "columnsFrom": [
-            "companyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["companyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -614,12 +576,8 @@
           "name": "leads_assignedManagerId_users_id_fk",
           "tableFrom": "leads",
           "tableTo": "users",
-          "columnsFrom": [
-            "assignedManagerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["assignedManagerId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -627,9 +585,7 @@
       "compositePrimaryKeys": {
         "leads_id": {
           "name": "leads_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -697,12 +653,8 @@
           "name": "notifications_companyId_companies_id_fk",
           "tableFrom": "notifications",
           "tableTo": "companies",
-          "columnsFrom": [
-            "companyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["companyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -710,12 +662,8 @@
           "name": "notifications_recipientUserId_users_id_fk",
           "tableFrom": "notifications",
           "tableTo": "users",
-          "columnsFrom": [
-            "recipientUserId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["recipientUserId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -723,9 +671,7 @@
       "compositePrimaryKeys": {
         "notifications_id": {
           "name": "notifications_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -799,12 +745,8 @@
           "name": "proposals_companyId_companies_id_fk",
           "tableFrom": "proposals",
           "tableTo": "companies",
-          "columnsFrom": [
-            "companyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["companyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -812,12 +754,8 @@
           "name": "proposals_leadId_leads_id_fk",
           "tableFrom": "proposals",
           "tableTo": "leads",
-          "columnsFrom": [
-            "leadId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["leadId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -825,12 +763,8 @@
           "name": "proposals_estimateId_estimates_id_fk",
           "tableFrom": "proposals",
           "tableTo": "estimates",
-          "columnsFrom": [
-            "estimateId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["estimateId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -838,9 +772,7 @@
       "compositePrimaryKeys": {
         "proposals_id": {
           "name": "proposals_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -913,12 +845,8 @@
           "name": "rateTables_companyId_companies_id_fk",
           "tableFrom": "rateTables",
           "tableTo": "companies",
-          "columnsFrom": [
-            "companyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["companyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -926,9 +854,7 @@
       "compositePrimaryKeys": {
         "rateTables_id": {
           "name": "rateTables_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1002,12 +928,8 @@
           "name": "tasks_companyId_companies_id_fk",
           "tableFrom": "tasks",
           "tableTo": "companies",
-          "columnsFrom": [
-            "companyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["companyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1015,12 +937,8 @@
           "name": "tasks_leadId_leads_id_fk",
           "tableFrom": "tasks",
           "tableTo": "leads",
-          "columnsFrom": [
-            "leadId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["leadId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1028,12 +946,8 @@
           "name": "tasks_assignedTo_users_id_fk",
           "tableFrom": "tasks",
           "tableTo": "users",
-          "columnsFrom": [
-            "assignedTo"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["assignedTo"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1041,9 +955,7 @@
       "compositePrimaryKeys": {
         "tasks_id": {
           "name": "tasks_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1149,12 +1061,8 @@
           "name": "users_companyId_companies_id_fk",
           "tableFrom": "users",
           "tableTo": "companies",
-          "columnsFrom": [
-            "companyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["companyId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1162,17 +1070,13 @@
       "compositePrimaryKeys": {
         "users_id": {
           "name": "users_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "users_openId_unique": {
           "name": "users_openId_unique",
-          "columns": [
-            "openId"
-          ]
+          "columns": ["openId"]
         }
       },
       "checkConstraint": {}
