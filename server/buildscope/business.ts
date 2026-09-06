@@ -42,11 +42,11 @@ const materialCoefficients: Record<string, number> = {
 };
 
 const regionalCoefficients: Record<string, number> = {
-  Алматы: 1.06,
-  Астана: 1.04,
-  Шымкент: 0.96,
-  Караганда: 0.94,
-  Конаев: 1,
+  "Алматы": 1.06,
+  "Талгар": 1.05,
+  "Каскелен": 1.02,
+  "Конаев": 1,
+  "Алматинская обл.": 0.98,
 };
 
 const foundationCoefficients: Record<string, number> = {

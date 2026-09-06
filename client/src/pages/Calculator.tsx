@@ -25,7 +25,7 @@ const steps = [
   "Сроки",
   "Контакты",
 ];
-const regions = ["Алматы", "Астана", "Шымкент", "Караганда", "Конаев"];
+const regions = ["Алматы", "Талгар", "Каскелен", "Конаев", "Алматинская обл."];
 const tiers: { id: Tier; title: string; hint: string }[] = [
   { id: "economy", title: "Эконом", hint: "Конструктив и подготовка" },
   { id: "standard", title: "Стандарт", hint: "Готово к жизни" },
