@@ -1,0 +1,1 @@
+ALTER TABLE `rateTables` ADD CONSTRAINT `rateTables_unique_version` UNIQUE(`companyId`,`version`,`region`,`material`,`finishTier`);

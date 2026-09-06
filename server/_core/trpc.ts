@@ -41,6 +41,21 @@ const leadRateLimit = t.procedure.use(opts => {
   });
 });
 
+// Shared write-abuse limiter for CRM mutations (per IP, per minute).
+const crmWriteRateLimit = t.middleware(opts => {
+  const verdict = rateLimitCheck({
+    windowMs: 60_000,
+    max: 60,
+    keyPrefix: "crm-write",
+    req: opts.ctx.req,
+  });
+  if (verdict === "ok") return opts.next();
+  throw new TRPCError({
+    code: "TOO_MANY_REQUESTS",
+    message: "Слишком много операций. Попробуйте через минуту.",
+  });
+});
+
 const requireUser = t.middleware(async opts => {
   const { ctx, next } = opts;
 
@@ -57,6 +72,33 @@ const requireUser = t.middleware(async opts => {
 });
 
 export const protectedProcedure = t.procedure.use(requireUser);
+
+/**
+ * CRM mutations: public in demo mode (showcase), authenticated owner/manager
+ * writes once CRM_DEMO_MODE=false. Analysts stay read-only by design.
+ */
+const requireCrmWriter = t.middleware(async opts => {
+  const { ctx, next } = opts;
+
+  if (ENV.crmDemoMode) {
+    return next({ ctx: { ...ctx, user: ctx.user } });
+  }
+
+  if (!ctx.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: UNAUTHED_ERR_MSG });
+  }
+
+  const allowed = ctx.user.role === "admin" || (ctx.user.crmRole === "owner" || ctx.user.crmRole === "manager");
+  if (!allowed) {
+    throw new TRPCError({ code: "FORBIDDEN", message: NOT_ADMIN_ERR_MSG });
+  }
+
+  return next({ ctx: { ...ctx, user: ctx.user } });
+});
+
+export const crmMutationProcedure = t.procedure
+  .use(crmWriteRateLimit)
+  .use(requireCrmWriter);
 
 export { leadRateLimit };
 

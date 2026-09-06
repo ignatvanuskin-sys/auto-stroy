@@ -6,6 +6,7 @@ import {
   mysqlTable,
   text,
   timestamp,
+  unique,
   varchar,
 } from "drizzle-orm/mysql-core";
 
@@ -47,22 +48,36 @@ export const users = mysqlTable("users", {
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
 });
 
-export const rateTables = mysqlTable("rateTables", {
-  id: int("id").autoincrement().primaryKey(),
-  companyId: int("companyId")
-    .notNull()
-    .references(() => companies.id),
-  version: int("version").notNull(),
-  region: varchar("region", { length: 80 }).notNull(),
-  material: varchar("material", { length: 80 }).notNull(),
-  finishTier: mysqlEnum("finishTier", [
-    "economy",
-    "standard",
-    "premium",
-  ]).notNull(),
-  baseRatePerM2: int("baseRatePerM2").notNull(),
-  effectiveFrom: timestamp("effectiveFrom").defaultNow().notNull(),
-});
+export const rateTables = mysqlTable(
+  "rateTables",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    companyId: int("companyId")
+      .notNull()
+      .references(() => companies.id),
+    version: int("version").notNull(),
+    region: varchar("region", { length: 80 }).notNull(),
+    material: varchar("material", { length: 80 }).notNull(),
+    finishTier: mysqlEnum("finishTier", [
+      "economy",
+      "standard",
+      "premium",
+    ]).notNull(),
+    baseRatePerM2: int("baseRatePerM2").notNull(),
+    effectiveFrom: timestamp("effectiveFrom").defaultNow().notNull(),
+  },
+  table => [
+    // A tenant+region+material+tier combination has exactly one active rate per
+    // version; the unique index prevents duplicate versions from racing writes.
+    unique("rateTables_unique_version").on(
+      table.companyId,
+      table.version,
+      table.region,
+      table.material,
+      table.finishTier
+    ),
+  ]
+);
 
 export const leads = mysqlTable("leads", {
   id: int("id").autoincrement().primaryKey(),

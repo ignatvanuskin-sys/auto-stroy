@@ -48,16 +48,18 @@ pnpm build    # vite build + esbuild сервера
 
 ## Деплой (Railway)
 
-1. Репозиторий уже подключён к сервису `auto-stroy` (проект `desirable-enchantment`).
-2. Добавьте в переменные сервиса:
-   - `DATABASE_URL` — Railway MySQL (или внешний TiDB);
-   - `JWT_SECRET` — случайная строка ≥ 32 символов;
-   - опционально `OAUTH_SERVER_URL`, `VITE_APP_ID`, `VITE_OAUTH_PORTAL_URL`, `BUILT_IN_FORGE_API_URL`, `BUILT_IN_FORGE_API_KEY`.
-3. Деплой срабатывает автоматически на push в `main`. Стартовая команда: `pnpm start` (Railway также может запускать `node dist/index.js` напрямую).
-4. После первого деплоя примените миграции и seed (локально против прод-БД или через one-off job):
+1. Репозиторий уже подключён к сервису `auto-stroy` (проект `desirable-enchantment`), БД — сервис `MySQL` (volume).
+2. Переменные сервиса:
+   - `DATABASE_URL` — reference на `${{MySQL.MYSQL_URL}}` (уже подключено);
+   - `JWT_SECRET` — случайная строка ≥ 32 символов (уже установлено);
+   - `CRM_DEMO_MODE=false` — включить обязательную авторизацию для CRM-мутаций;
+   - опционально `OAUTH_SERVER_URL`, `VITE_APP_ID`, `VITE_OAUTH_PORTAL_URL`, `BUILT_IN_FORGE_API_URL`, `BUILT_IN_FORGE_API_KEY`;
+   - опционально Telegram-воркер: `ENABLE_TELEGRAM_WORKER=true`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`.
+3. Деплой срабатывает автоматически на push в `main`. Healthcheck `/healthz` настроен в Railway.
+4. Для миграций/seed против прод-БД создайте временный TCP-прокси (Railway UI → MySQL → TCP Proxy), выполните команды, затем **удалите прокси**:
    ```bash
-   DATABASE_URL=<prod-url> pnpm db:push
-   DATABASE_URL=<prod-url> pnpm seed
+   DATABASE_URL=<proxied-url> pnpm db:push
+   DATABASE_URL=<proxied-url> pnpm seed
    ```
 5. Health-check: `GET /healthz` → `{"ok":true,"database":"ok"}`.
 
@@ -65,10 +67,17 @@ pnpm build    # vite build + esbuild сервера
 
 - `JWT_SECRET` обязателен в production — сервер подписывает сессионные cookie HS256.
 - Cookie: `httpOnly`, `Secure` на HTTPS, `SameSite=None` только вместе с `Secure` (на HTTP — `Lax`).
-- Публичный эндпоинт заявок ограничен rate-limit (30 запросов / 10 мин / IP, in-memory).
-- Тело запроса ограничено 1 MB.
+- Публичный эндпоинт заявок ограничен rate-limit (30 запросов / 10 мин / IP, in-memory); CRM-мутации — 60/мин/IP.
+- Тело запроса ограничено 1 MB; базовые security-заголовки (nosniff, frame-options, referrer-policy).
 - Внутренние ошибки API в production маскируются (`errorFormatter`), детали только в логах сервера.
+- `CRM_DEMO_MODE=false` включает обязательную авторизацию для CRM-мутаций (owner/manager; analyst — read-only).
+- Graceful shutdown по SIGTERM/SIGINT: сервер дорабатывает in-flight запросы перед рестартом платформы.
 - Заметки клиента передаются в LLM как недоверенный ввод; цена/скоринг считаются только детерминированным кодом.
+- Уникальный индекс `rateTables(companyId, version, region, material, finishTier)` защищает от гонки версий тарифов.
+
+## Telegram outbox
+
+Хот-лиды (score ≥ 61) попадают в очередь `notifications` (channel=Telegram, status=queued). При `ENABLE_TELEGRAM_WORKER=true` + токене бота воркер раз в 60 секунд отправляет до 10 записей: успешные помечаются `sent`, постоянные ошибки (4xx) — `failed`, сетевые/5xx остаются в очереди для повтора. Без токена очередь просто копится и видна в CRM.
 
 ## Demo-режим CRM
 

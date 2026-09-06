@@ -9,6 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { healthHandler } from "./health";
 import { startRateLimitSweeper } from "./rateLimit";
+import { startTelegramOutboxWorker } from "./telegramWorker";
 import { serveStatic, setupVite } from "./vite";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -34,6 +35,14 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
   app.set("trust proxy", 1);
+  // Baseline security headers without an extra dependency.
+  app.use((_req, res, next) => {
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("X-Frame-Options", "SAMEORIGIN");
+    res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+    res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+    next();
+  });
   // Body size is capped at 1mb: legitimate requests (calculator lead with a
   // 2000-char note) stay far below it, and oversized bodies are a DoS vector.
   app.use(express.json({ limit: "1mb" }));
@@ -79,6 +88,24 @@ async function startServer() {
   });
 
   startRateLimitSweeper(10 * 60_000);
+  startTelegramOutboxWorker();
+
+  // Drain connections on platform redeploy so in-flight requests finish.
+  const shutdown = (signal: string) => {
+    console.log(`[Server] ${signal} received, shutting down gracefully`);
+    server.close(() => process.exit(0));
+    // Hard stop if sockets refuse to drain.
+    setTimeout(() => process.exit(1), 10_000).unref();
+  };
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
+  process.on("unhandledRejection", reason => {
+    console.error("[Process] unhandledRejection:", reason);
+  });
+  process.on("uncaughtException", error => {
+    console.error("[Process] uncaughtException:", error);
+    process.exit(1);
+  });
 }
 
 startServer().catch(error => {

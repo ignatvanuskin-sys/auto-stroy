@@ -1,4 +1,5 @@
 import { and, desc, eq } from "drizzle-orm";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import {
   estimates,
@@ -32,7 +33,7 @@ import {
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { leadRateLimit, publicProcedure, router } from "./_core/trpc";
+import { leadRateLimit, crmMutationProcedure, publicProcedure, router } from "./_core/trpc";
 
 const tierSchema = z.enum(["economy", "standard", "premium"]);
 const calculatorSchema = z.object({
@@ -361,7 +362,7 @@ export const appRouter = router({
           proposals: proposalList,
         };
       }),
-    updateStatus: publicProcedure
+    updateStatus: crmMutationProcedure
       .input(
         z.object({ id: z.number().int().positive(), status: statusSchema })
       )
@@ -386,7 +387,7 @@ export const appRouter = router({
           });
         return { success: true };
       }),
-    createTask: publicProcedure
+    createTask: crmMutationProcedure
       .input(
         z.object({
           leadId: z.number().int().positive(),
@@ -422,7 +423,7 @@ export const appRouter = router({
     listTasks: publicProcedure.query(async () =>
       listCompanyTasks(await getDemoCompanyId())
     ),
-    generateProposal: publicProcedure
+    generateProposal: crmMutationProcedure
       .input(z.object({ leadId: z.number().int().positive() }))
       .mutation(async ({ input }) => {
         const db = await getDb();
@@ -501,7 +502,7 @@ export const appRouter = router({
     rates: publicProcedure.query(async () =>
       listCompanyRates(await getDemoCompanyId())
     ),
-    updateRate: publicProcedure
+    updateRate: crmMutationProcedure
       .input(
         z.object({
           id: z.number().int().positive(),
@@ -516,9 +517,8 @@ export const appRouter = router({
         const current = rows.find(row => row.id === input.id);
         if (!current) throw new Error("Rate row not found");
         const nextVersion = Math.max(...rows.map(row => row.version), 0) + 1;
-        await db
-          .insert(rateTables)
-          .values({
+        try {
+          await db.insert(rateTables).values({
             companyId,
             version: nextVersion,
             region: current.region,
@@ -526,9 +526,27 @@ export const appRouter = router({
             finishTier: current.finishTier,
             baseRatePerM2: input.baseRatePerM2,
           });
+        } catch (error) {
+          // Unique index (companyId, version, region, material, finishTier)
+          // can only trip when two writers picked the same next version.
+          if (isDuplicateEntryError(error)) {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message:
+                "Тарифная версия уже создана другим изменением. Обновите список и повторите.",
+            });
+          }
+          throw error;
+        }
         return { success: true, version: nextVersion };
       }),
   }),
 });
+
+function isDuplicateEntryError(error: unknown): boolean {
+  const code = (error as { code?: string; cause?: { code?: string } })?.code;
+  const causeCode = (error as { cause?: { code?: string } })?.cause?.code;
+  return code === "ER_DUP_ENTRY" || causeCode === "ER_DUP_ENTRY";
+}
 
 export type AppRouter = typeof appRouter;
