@@ -23,3 +23,11 @@ The preview browser successfully loaded `/calculator`, exposed the six-step stru
 ## CRM flow review
 
 The browser loaded the seeded Kanban with 12 visible demo leads across the pipeline, including the expected 92/100 Very Hot lead. Opening that card showed all project parameters, the AI summary, intent and confidence, the deterministic estimate range, timeline, task, and a Follow-up empty state. Clicking **Сгенерировать КП** created a draft proposal, added the three follow-up entries (day 1 / 3 / 7) as pending manager-confirmation drafts, appended a timeline event, and exposed a downloadable PDF action. The UI explicitly states that sending to the customer requires confirmation.
+
+## UX motion iteration
+
+Added a restrained motion system inspired by the supplied references without copying their code: conic-gradient glowing borders around the primary hero CTA, a blurred liquid-light sweep across portfolio media, a low-contrast orbital field over the hero, staggered reveal classes, and a mobile menu that transitions with `opacity`/`transform` and exposes `aria-expanded`/keyboard-safe tab indices.
+
+The new visual layer was checked on `/`, `/calculator`, and `/crm/leads` at 1440×960. The hero remains readable over the architectural photo, the calculator keeps its sober functional layout, and the CRM preserves its dense operational scan pattern. Reduced-motion CSS disables non-essential transitions and animations.
+
+Test configuration now includes client-side tests. Final motion utility coverage: 2 new tests; full suite: 3 files / 10 tests passed. TypeScript and production build passed.
