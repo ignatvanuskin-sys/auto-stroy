@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { qualifyLead } from "./qualification";
+import { pickModel, qualifyLead } from "./qualification";
 
 const baseFacts = {
   name: "Тест Клиент",
@@ -42,5 +42,36 @@ describe("qualifyLead", () => {
     expect(result.needsManualReview).toBe(true);
     expect(result.intentType).toBe("unclear");
     expect(result.confidence).toBe(0);
+  });
+});
+
+describe("pickModel", () => {
+  it("prefers a known chat model when the provider offers several", () => {
+    const catalog = {
+      data: [{ id: "llama-3.3-70b-versatile" }, { id: "openai/gpt-oss-20b" }],
+    };
+    expect(pickModel(catalog)).toBe("openai/gpt-oss-20b");
+  });
+
+  it("never selects non-chat models (whisper, guard, tts, embed)", () => {
+    const catalog = {
+      data: [
+        { id: "whisper-large-v3" },
+        { id: "meta-llama/llama-prompt-guard-2-86m" },
+        { id: "playai-tts" },
+        { id: "openai/gpt-oss-120b" },
+      ],
+    };
+    expect(pickModel(catalog)).toBe("openai/gpt-oss-120b");
+  });
+
+  it("returns undefined for a catalog with only non-chat models", () => {
+    const catalog = { data: [{ id: "whisper-large-v3" }, { id: "playai-tts" }] };
+    expect(pickModel(catalog)).toBeUndefined();
+  });
+
+  it("falls back to the first chat-capable model of an unknown provider", () => {
+    const catalog = { data: [{ id: "some-new-chat-model" }] };
+    expect(pickModel(catalog)).toBe("some-new-chat-model");
   });
 });

@@ -21,6 +21,26 @@ export type Qualification = z.infer<typeof qualificationSchema> & {
   source: "ai" | "fallback" | "rule";
 };
 
+/** Chat-capable models preferred by name across supported providers. */
+const PREFERRED_MODELS = [
+  "gpt-5-mini",
+  "openai/gpt-oss-20b",
+  "openai/gpt-oss-120b",
+  "llama-3.3-70b-versatile",
+  "llama-3.1-8b-instant",
+];
+
+/** Provider catalogs also list non-chat models; never route qualification to them. */
+const NON_CHAT_MODEL = /whisper|guard|tts|embed|safeguard/i;
+
+export function pickModel(catalog: { data: Array<{ id: string }> }): string | undefined {
+  const ids = catalog.data.map(item => item.id);
+  return (
+    PREFERRED_MODELS.find(id => ids.includes(id)) ??
+    ids.find(id => !NON_CHAT_MODEL.test(id))
+  );
+}
+
 type LeadFacts = {
   name: string;
   region: string;
@@ -81,9 +101,7 @@ export async function qualifyLead(facts: LeadFacts): Promise<Qualification> {
 
   try {
     const catalog = await listLLMModels();
-    const model =
-      catalog.data.find(item => item.id === "gpt-5-mini")?.id ??
-      catalog.data[0]?.id;
+    const model = pickModel(catalog);
     if (!model) throw new Error("No LLM model available");
 
     const response = await invokeLLM({
