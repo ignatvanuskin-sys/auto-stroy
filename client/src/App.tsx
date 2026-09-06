@@ -1,5 +1,8 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Calculator from "@/pages/Calculator";
+import { CrmAnalytics, CrmDashboard, CrmLeadDetail, CrmLeads, CrmProposals, CrmSettings, CrmTasks } from "@/pages/CrmPages";
+import { AboutPage, ContactsPage, FaqPage, ProcessPage, ProjectDetailPage, ProjectsPage, ServicesPage } from "@/pages/MarketingPages";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -7,36 +10,30 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
-  return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
-  );
+  return <Switch>
+    <Route path="/" component={Home} />
+    <Route path="/services" component={ServicesPage} />
+    <Route path="/projects" component={ProjectsPage} />
+    <Route path="/projects/:slug" component={ProjectDetailPage} />
+    <Route path="/process" component={ProcessPage} />
+    <Route path="/calculator" component={Calculator} />
+    <Route path="/about" component={AboutPage} />
+    <Route path="/faq" component={FaqPage} />
+    <Route path="/contacts" component={ContactsPage} />
+    <Route path="/crm/dashboard" component={CrmDashboard} />
+    <Route path="/crm/leads" component={CrmLeads} />
+    <Route path="/crm/leads/:id" component={CrmLeadDetail} />
+    <Route path="/crm/proposals" component={CrmProposals} />
+    <Route path="/crm/tasks" component={CrmTasks} />
+    <Route path="/crm/analytics" component={CrmAnalytics} />
+    <Route path="/crm/settings" component={CrmSettings} />
+    <Route path="/404" component={NotFound} />
+    <Route component={NotFound} />
+  </Switch>;
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
+  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster /><Router /></TooltipProvider></ThemeProvider></ErrorBoundary>;
 }
 
 export default App;
