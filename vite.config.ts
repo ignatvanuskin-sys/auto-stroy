@@ -179,7 +179,12 @@ export default defineConfig({
         // the whole framework cache on every deploy.
         manualChunks: {
           "vendor-react": ["react", "react-dom", "wouter"],
-          "vendor-query": ["@tanstack/react-query", "@trpc/client", "@trpc/react-query", "superjson"],
+          "vendor-query": [
+            "@tanstack/react-query",
+            "@trpc/client",
+            "@trpc/react-query",
+            "superjson",
+          ],
         },
       },
     },

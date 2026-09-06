@@ -33,7 +33,12 @@ import {
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { leadRateLimit, crmMutationProcedure, publicProcedure, router } from "./_core/trpc";
+import {
+  leadRateLimit,
+  crmMutationProcedure,
+  publicProcedure,
+  router,
+} from "./_core/trpc";
 
 const tierSchema = z.enum(["economy", "standard", "premium"]);
 const calculatorSchema = z.object({
@@ -376,15 +381,13 @@ export const appRouter = router({
           .update(leads)
           .set({ status: input.status })
           .where(and(eq(leads.id, input.id), eq(leads.companyId, companyId)));
-        await db
-          .insert(leadActivities)
-          .values({
-            companyId,
-            leadId: input.id,
-            actorType: "manager",
-            type: "status_changed",
-            payload: { from: lead.status, to: input.status },
-          });
+        await db.insert(leadActivities).values({
+          companyId,
+          leadId: input.id,
+          actorType: "manager",
+          type: "status_changed",
+          payload: { from: lead.status, to: input.status },
+        });
         return { success: true };
       }),
     createTask: crmMutationProcedure
@@ -401,23 +404,19 @@ export const appRouter = router({
         const companyId = await getDemoCompanyId();
         const lead = await findCompanyLead(companyId, input.leadId);
         if (!lead) throw new Error("Lead not found");
-        await db
-          .insert(tasks)
-          .values({
-            companyId,
-            leadId: input.leadId,
-            title: input.title,
-            dueAt: input.dueAt ?? null,
-          });
-        await db
-          .insert(leadActivities)
-          .values({
-            companyId,
-            leadId: input.leadId,
-            actorType: "manager",
-            type: "task_created",
-            payload: { title: input.title },
-          });
+        await db.insert(tasks).values({
+          companyId,
+          leadId: input.leadId,
+          title: input.title,
+          dueAt: input.dueAt ?? null,
+        });
+        await db.insert(leadActivities).values({
+          companyId,
+          leadId: input.leadId,
+          actorType: "manager",
+          type: "task_created",
+          payload: { title: input.title },
+        });
         return { success: true };
       }),
     listTasks: publicProcedure.query(async () =>
@@ -451,40 +450,34 @@ export const appRouter = router({
           desiredStart: lead.desiredStart,
           estimate,
         });
-        await db
-          .insert(proposals)
-          .values({
+        await db.insert(proposals).values({
+          companyId,
+          leadId: lead.id,
+          estimateId: latest.id,
+          status: "draft",
+        });
+        await db.insert(leadActivities).values({
+          companyId,
+          leadId: lead.id,
+          actorType: "system",
+          type: "proposal_generated",
+          payload: { proposalNumber },
+        });
+        await db.insert(followups).values(
+          followupSchedule(new Date()).map((scheduledAt, index) => ({
             companyId,
             leadId: lead.id,
-            estimateId: latest.id,
-            status: "draft",
-          });
-        await db
-          .insert(leadActivities)
-          .values({
-            companyId,
-            leadId: lead.id,
-            actorType: "system",
-            type: "proposal_generated",
-            payload: { proposalNumber },
-          });
-        await db
-          .insert(followups)
-          .values(
-            followupSchedule(new Date()).map((scheduledAt, index) => ({
-              companyId,
-              leadId: lead.id,
-              type: `day_${[1, 3, 7][index]}`,
-              scheduledAt,
-              status: "pending" as const,
-              channel: lead.preferredChannel,
-              messageText: [
-                "Удобно ли обсудить детали проекта?",
-                "Готовы уточнить вопросы по комплектации?",
-                "Оставим расчёт актуальным — написать вам позже?",
-              ][index],
-            }))
-          );
+            type: `day_${[1, 3, 7][index]}`,
+            scheduledAt,
+            status: "pending" as const,
+            channel: lead.preferredChannel,
+            messageText: [
+              "Удобно ли обсудить детали проекта?",
+              "Готовы уточнить вопросы по комплектации?",
+              "Оставим расчёт актуальным — написать вам позже?",
+            ][index],
+          }))
+        );
         return {
           proposalNumber,
           pdfBase64,

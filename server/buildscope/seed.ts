@@ -235,13 +235,11 @@ async function seed() {
   await db.delete(leads);
   await db.delete(rateTables);
   await db.delete(companies);
-  const [companyResult] = await db
-    .insert(companies)
-    .values({
-      name: "Alatau Build",
-      slug: "alatau-build",
-      brandingConfig: { primary: "#bb5d32", region: "Алматы" },
-    });
+  const [companyResult] = await db.insert(companies).values({
+    name: "Alatau Build",
+    slug: "alatau-build",
+    brandingConfig: { primary: "#bb5d32", region: "Алматы" },
+  });
   const companyId = companyResult.insertId;
   const regions = ["Алматы", "Астана", "Шымкент", "Караганда", "Конаев"];
   const materials = ["Кирпич", "Газоблок", "Каркас", "Брус", "Не уверен"];
@@ -293,65 +291,61 @@ async function seed() {
       hasLand: hasLand as boolean,
       engineering: index % 3 === 0 ? ["Тёплый пол"] : [],
     });
-    const [leadResult] = await db
-      .insert(leads)
-      .values({
-        companyId,
-        source: source as string,
-        name: name as string,
-        phone: phone as string,
-        preferredChannel: "Telegram",
-        region: region as string,
-        projectType: projectType as string,
-        areaM2: areaM2 as number,
-        floors: floors as number,
-        material: material as string,
-        finishTier: finishTier as "economy" | "standard" | "premium",
-        foundation: "Плитный",
-        engineering: [],
-        budgetRange: budgetRange as string,
-        hasLand: hasLand as boolean,
-        desiredStart: desiredStart as string,
-        rawNotes: null,
-        aiSummary: aiSummary as string,
-        aiIntent: (score as number) >= 61 ? "genuine_buyer" : "researcher",
-        aiConfidence: (score as number) >= 61 ? 88 : 58,
-        missingFields: [],
-        needsManualReview: false,
-        score: score as number,
-        scoreBand:
-          (score as number) >= 81
-            ? "very_hot"
-            : (score as number) >= 61
-              ? "hot"
-              : (score as number) >= 31
-                ? "warm"
-                : "cold",
-        status: status as
-          | "New"
-          | "Qualified"
-          | "Contacted"
-          | "Site Visit"
-          | "Estimate Sent"
-          | "Proposal Sent"
-          | "Negotiation"
-          | "Won"
-          | "Lost",
-        createdAt: daysAgo(2 + index * 2),
-      });
+    const [leadResult] = await db.insert(leads).values({
+      companyId,
+      source: source as string,
+      name: name as string,
+      phone: phone as string,
+      preferredChannel: "Telegram",
+      region: region as string,
+      projectType: projectType as string,
+      areaM2: areaM2 as number,
+      floors: floors as number,
+      material: material as string,
+      finishTier: finishTier as "economy" | "standard" | "premium",
+      foundation: "Плитный",
+      engineering: [],
+      budgetRange: budgetRange as string,
+      hasLand: hasLand as boolean,
+      desiredStart: desiredStart as string,
+      rawNotes: null,
+      aiSummary: aiSummary as string,
+      aiIntent: (score as number) >= 61 ? "genuine_buyer" : "researcher",
+      aiConfidence: (score as number) >= 61 ? 88 : 58,
+      missingFields: [],
+      needsManualReview: false,
+      score: score as number,
+      scoreBand:
+        (score as number) >= 81
+          ? "very_hot"
+          : (score as number) >= 61
+            ? "hot"
+            : (score as number) >= 31
+              ? "warm"
+              : "cold",
+      status: status as
+        | "New"
+        | "Qualified"
+        | "Contacted"
+        | "Site Visit"
+        | "Estimate Sent"
+        | "Proposal Sent"
+        | "Negotiation"
+        | "Won"
+        | "Lost",
+      createdAt: daysAgo(2 + index * 2),
+    });
     const leadId = leadResult.insertId;
     leadIds.push(leadId);
-    const [estimateResult] = await db
-      .insert(estimates)
-      .values({
-        companyId,
-        leadId,
-        rateTableVersion: 1,
-        inputSnapshot: { areaM2, region, material, finishTier },
-        lowAmount: estimate.lowAmount,
-        highAmount: estimate.highAmount,
-        createdAt: daysAgo(2 + index * 2),
-      });
+    const [estimateResult] = await db.insert(estimates).values({
+      companyId,
+      leadId,
+      rateTableVersion: 1,
+      inputSnapshot: { areaM2, region, material, finishTier },
+      lowAmount: estimate.lowAmount,
+      highAmount: estimate.highAmount,
+      createdAt: daysAgo(2 + index * 2),
+    });
     await db.insert(leadActivities).values([
       {
         companyId,
@@ -379,28 +373,24 @@ async function seed() {
       },
     ]);
     if (["Proposal Sent", "Negotiation", "Won"].includes(status as string)) {
-      await db
-        .insert(proposals)
-        .values({
+      await db.insert(proposals).values({
+        companyId,
+        leadId,
+        estimateId: estimateResult.insertId,
+        status: status === "Won" ? "viewed" : "sent",
+        createdAt: daysAgo(index + 3),
+      });
+      await db.insert(followups).values(
+        [1, 3, 7].map((day, i) => ({
           companyId,
           leadId,
-          estimateId: estimateResult.insertId,
-          status: status === "Won" ? "viewed" : "sent",
-          createdAt: daysAgo(index + 3),
-        });
-      await db
-        .insert(followups)
-        .values(
-          [1, 3, 7].map((day, i) => ({
-            companyId,
-            leadId,
-            type: `day_${day}`,
-            scheduledAt: daysAgo(Math.max(0, 8 - i)),
-            status: (i === 0 ? "sent" : "pending") as "sent" | "pending",
-            channel: "Telegram",
-            messageText: "Черновик follow-up ожидает подтверждения менеджера.",
-          }))
-        );
+          type: `day_${day}`,
+          scheduledAt: daysAgo(Math.max(0, 8 - i)),
+          status: (i === 0 ? "sent" : "pending") as "sent" | "pending",
+          channel: "Telegram",
+          messageText: "Черновик follow-up ожидает подтверждения менеджера.",
+        }))
+      );
     }
   }
   await db.insert(tasks).values([
@@ -423,22 +413,22 @@ async function seed() {
       dueAt: new Date(now + 3 * 86_400_000),
     },
   ]);
-  await db
-    .insert(notifications)
-    .values({
-      companyId,
-      channel: "Telegram",
-      status: "queued",
-      payload: {
-        title: "HOT LEAD (92/100)",
-        leadId: leadIds[0]!,
-        text: "Дом 180 м², Алматы. Бюджет: 35–40 млн ₸. Участок уже есть, понятный срок старта.",
-      },
-    });
+  await db.insert(notifications).values({
+    companyId,
+    channel: "Telegram",
+    status: "queued",
+    payload: {
+      title: "HOT LEAD (92/100)",
+      leadId: leadIds[0]!,
+      text: "Дом 180 м², Алматы. Бюджет: 35–40 млн ₸. Участок уже есть, понятный срок старта.",
+    },
+  });
   console.log("BuildScope AI seed completed");
 }
 
-seed().then(() => process.exit(0)).catch(error => {
-  console.error(error);
-  process.exit(1);
-});
+seed()
+  .then(() => process.exit(0))
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });

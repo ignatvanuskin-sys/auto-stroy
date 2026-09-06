@@ -42,9 +42,25 @@ pnpm dev                       # http://localhost:3000
 
 ```bash
 pnpm check    # tsc --noEmit
-pnpm test     # vitest (19 тестов)
+pnpm test     # vitest — 74 теста в 12 файлах
 pnpm build    # vite build + esbuild сервера
 ```
+
+### Структура тестового покрытия
+
+| Область | Файл | Что проверяется |
+|---|---|---|
+| Расчёт цены | `server/buildscope/business.test.ts` | Детерминированность, округление 0.5/1 млн, клемпинг площади/этажей, коэффициенты |
+| Скоринг лида | `server/buildscope/business.test.ts` | Границы band'ов (cold/warm/hot/very_hot), budget mismatch, потолок 100 |
+| AI-квалификация | `server/buildscope/qualification.test.ts` | Rule-based путь, безопасный fallback при недоступном LLM |
+| PDF-пропозал | `server/buildscope/proposal.test.ts` | Валидный PDF, экранирование символов, диапазон в теле документа |
+| **API-процедуры** | `server/routers.test.ts` | Валидация входа, создание лида + уведомление hot/cold, смена статуса, задачи, версии тарифов (+CONFLICT при гонке), logout/me |
+| **Auth-gate CRM** | `server/crm.gate.test.ts` | CRM_DEMO_MODE=false: UNAUTHORIZED/FORBIDDEN/ALLOWED по ролям; demo-режим; публичные чтения |
+| Health-check | `server/_core/health.test.ts` | Статусы database ok/unavailable, 200 при сбое пробы |
+| Rate limiting | `server/_core/rateLimit.test.ts` | Окно, независимость клиентов, x-forwarded-for |
+| Telegram outbox | `server/_core/telegramWorker*.test.ts` | Извлечение payload, отправка, retry/failed семантика |
+| OAuth state | `shared/const.test.ts` | Round-trip, защита от подделки nonce, legacy-формат |
+| UI-утилиты | `client/src/lib/*.test.ts` | cn() (tailwind-merge), motion-классы |
 
 ## Деплой (Railway)
 

@@ -88,7 +88,10 @@ const requireCrmWriter = t.middleware(async opts => {
     throw new TRPCError({ code: "UNAUTHORIZED", message: UNAUTHED_ERR_MSG });
   }
 
-  const allowed = ctx.user.role === "admin" || (ctx.user.crmRole === "owner" || ctx.user.crmRole === "manager");
+  const allowed =
+    ctx.user.role === "admin" ||
+    ctx.user.crmRole === "owner" ||
+    ctx.user.crmRole === "manager";
   if (!allowed) {
     throw new TRPCError({ code: "FORBIDDEN", message: NOT_ADMIN_ERR_MSG });
   }

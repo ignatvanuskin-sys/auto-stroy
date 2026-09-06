@@ -13,7 +13,9 @@ const POLL_INTERVAL_MS = 60_000;
 const MAX_MESSAGE_LENGTH = 3_500;
 
 /** Exported for tests; not part of the public API. */
-export function extractOutboxText(payload: unknown): { title: string; text: string } | null {
+export function extractOutboxText(
+  payload: unknown
+): { title: string; text: string } | null {
   if (!payload || typeof payload !== "object") return null;
   const record = payload as OutboxPayload;
   if (typeof record.text !== "string" || record.text.trim().length === 0) {
@@ -26,7 +28,10 @@ export function extractOutboxText(payload: unknown): { title: string; text: stri
 /** "sent" = delivered, "retry" = transient failure (keep queued), "failed" = permanent failure. */
 type DeliveryResult = "sent" | "retry" | "failed";
 
-async function sendTelegramMessage(chatId: string, text: string): Promise<DeliveryResult> {
+async function sendTelegramMessage(
+  chatId: string,
+  text: string
+): Promise<DeliveryResult> {
   try {
     const response = await fetch(
       `https://api.telegram.org/bot${ENV.telegramBotToken}/sendMessage`,
@@ -41,30 +46,46 @@ async function sendTelegramMessage(chatId: string, text: string): Promise<Delive
     );
     if (response.ok) return "sent";
     const detail = await response.text().catch(() => "");
-    console.warn(`[TelegramWorker] send failed (${response.status})${detail ? `: ${detail.slice(0, 300)}` : ""}`);
+    console.warn(
+      `[TelegramWorker] send failed (${response.status})${detail ? `: ${detail.slice(0, 300)}` : ""}`
+    );
     // 5xx/429 are upstream/transient; 4xx means the message or chat is wrong.
-    return response.status >= 500 || response.status === 429 ? "retry" : "failed";
+    return response.status >= 500 || response.status === 429
+      ? "retry"
+      : "failed";
   } catch (error) {
-    console.warn("[TelegramWorker] network error:", error instanceof Error ? error.message : error);
+    console.warn(
+      "[TelegramWorker] network error:",
+      error instanceof Error ? error.message : error
+    );
     return "retry";
   }
 }
 
-async function processQueue(): Promise<void> {
+/** Exported for tests and manual draining; the interval worker wraps this. */
+export async function processQueue(): Promise<void> {
   const db = await getDb();
   if (!db) return;
 
   const queued = await db
     .select()
     .from(notifications)
-    .where(and(eq(notifications.status, "queued"), eq(notifications.channel, "Telegram")))
+    .where(
+      and(
+        eq(notifications.status, "queued"),
+        eq(notifications.channel, "Telegram")
+      )
+    )
     .limit(10);
 
   for (const item of queued) {
     const content = extractOutboxText(item.payload);
     if (!content) {
       // Nothing sendable in the payload; mark failed so it is not retried forever.
-      await db.update(notifications).set({ status: "failed" }).where(eq(notifications.id, item.id));
+      await db
+        .update(notifications)
+        .set({ status: "failed" })
+        .where(eq(notifications.id, item.id));
       continue;
     }
 
@@ -89,13 +110,18 @@ async function processQueue(): Promise<void> {
 export function startTelegramOutboxWorker(): void {
   if (!ENV.telegramWorkerEnabled) return;
   if (!ENV.telegramBotToken || !ENV.telegramChatId) {
-    console.warn("[TelegramWorker] enabled but TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID missing; staying idle");
+    console.warn(
+      "[TelegramWorker] enabled but TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID missing; staying idle"
+    );
     return;
   }
 
   const timer = setInterval(() => {
     processQueue().catch(error => {
-      console.warn("[TelegramWorker] tick failed:", error instanceof Error ? error.message : error);
+      console.warn(
+        "[TelegramWorker] tick failed:",
+        error instanceof Error ? error.message : error
+      );
     });
   }, POLL_INTERVAL_MS);
   timer.unref();
