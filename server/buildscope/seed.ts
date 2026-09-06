@@ -438,7 +438,7 @@ async function seed() {
   console.log("BuildScope AI seed completed");
 }
 
-seed().catch(async error => {
+seed().then(() => process.exit(0)).catch(error => {
   console.error(error);
-  process.exitCode = 1;
+  process.exit(1);
 });
