@@ -309,6 +309,108 @@ textarea.field {
   }
 }
 
+/* Page transition (transitions.dev style): fade + lift on route change */
+.page-enter {
+  animation: page-enter 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Scroll reveal (originkit style): fade + rise when entering the viewport */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: opacity, transform;
+}
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Spotlight card (beam.jakubantalik style): cursor-following radial glow */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+.spotlight-card > * {
+  position: relative;
+  z-index: 1;
+}
+.spotlight-card:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    340px circle at var(--spotlight-x, -300px) var(--spotlight-y, -300px),
+    rgba(188, 92, 53, 0.14),
+    transparent 65%
+  );
+}
+.spotlight-card:hover:before {
+  opacity: 1;
+}
+.spotlight-card--dark:before {
+  background: radial-gradient(
+    340px circle at var(--spotlight-x, -300px) var(--spotlight-y, -300px),
+    rgba(233, 160, 125, 0.17),
+    transparent 65%
+  );
+}
+
+/* Shiny text (reactbits style): moving light sweep through gradient text */
+.shiny-text {
+  background: linear-gradient(
+    110deg,
+    #e9a07d 0%,
+    #ffd7ba 22%,
+    #ffffff 32%,
+    #e9a07d 45%,
+    #e9a07d 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shiny-sweep 3.4s linear infinite;
+}
+@keyframes shiny-sweep {
+  from {
+    background-position: 220% 0;
+  }
+  to {
+    background-position: -220% 0;
+  }
+}
+
+/* Soft float accent for section icons (originkit style) */
+.float-soft {
+  animation: float-soft 4.5s ease-in-out infinite;
+}
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 .glow-frame {
   position: relative;
   isolation: isolate;

@@ -127,6 +127,7 @@ const validLeadInput = {
   name: "Приёмочный Клиент",
   phone: "+7 700 111 22 33",
   preferredChannel: "Telegram" as const,
+  telegramUsername: null,
   budgetRange: "35–40 млн ₸",
   desiredStart: "3–6 мес",
   rawNotes: null,
@@ -203,6 +204,33 @@ describe("calculator.submitLead", () => {
     ).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
+  it("normalizes a telegram username without the @ prefix", async () => {
+    stubbedValues();
+    const { db, insertCalls } = fakeDb();
+    mockedDb.getDb.mockResolvedValue(db as never);
+    const { ctx } = makeCtx(null);
+    const caller = appRouter.createCaller(ctx);
+
+    await caller.calculator.submitLead({
+      ...validLeadInput,
+      telegramUsername: "bare_name",
+    });
+
+    const leadValues = insertCalls[0]!.values as { telegramUsername: string };
+    expect(leadValues.telegramUsername).toBe("@bare_name");
+  });
+
+  it("rejects an invalid telegram username", async () => {
+    const { ctx } = makeCtx(null);
+    const caller = appRouter.createCaller(ctx);
+    await expect(
+      caller.calculator.submitLead({
+        ...validLeadInput,
+        telegramUsername: "bad name!",
+      })
+    ).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
   it("rejects a filled honeypot at the validation layer", async () => {
     const { ctx } = makeCtx(null);
     const caller = appRouter.createCaller(ctx);
@@ -230,12 +258,20 @@ describe("calculator.submitLead", () => {
     const { ctx } = makeCtx(null);
     const caller = appRouter.createCaller(ctx);
 
-    const result = await caller.calculator.submitLead(validLeadInput);
+    const result = await caller.calculator.submitLead({
+      ...validLeadInput,
+      telegramUsername: "@acceptance_lead",
+    });
 
     expect(result.leadId).toBe(42);
     expect(result.score.band).toBe("hot");
     expect(result.score.score).toBeGreaterThanOrEqual(61);
     expect(result.notificationQueued).toBe(true);
+
+    const leadValues = insertCalls[0]!.values as {
+      telegramUsername: string | null;
+    };
+    expect(leadValues.telegramUsername).toBe("@acceptance_lead");
 
     const tables = insertCalls.map(call => call.table);
     expect(tables).toHaveLength(4); // lead, estimate, activities, notification

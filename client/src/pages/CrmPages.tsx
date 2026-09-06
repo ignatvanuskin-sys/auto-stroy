@@ -438,6 +438,12 @@ export function CrmLeads() {
                       </Link>
                       <p className="mt-1 text-xs text-[#64706d]">
                         {lead.phone}
+                        {lead.telegramUsername && (
+                          <span className="font-bold text-[#bc5c35]">
+                            {" "}
+                            · {lead.telegramUsername}
+                          </span>
+                        )}
                       </p>
                     </td>
                     <td className="px-5 py-4 text-sm">
@@ -566,6 +572,12 @@ export function CrmLeadDetail() {
             <h2 className="display mt-4 text-4xl font-semibold">{lead.name}</h2>
             <p className="mt-2 text-sm text-[#64706d]">
               {lead.phone} · {lead.preferredChannel}
+              {lead.telegramUsername && (
+                <span className="font-bold text-[#bc5c35]">
+                  {" "}
+                  · {lead.telegramUsername}
+                </span>
+              )}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">

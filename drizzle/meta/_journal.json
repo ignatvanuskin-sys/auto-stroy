@@ -29,6 +29,13 @@
       "when": 1788689952918,
       "tag": "0003_rate_tables_unique_version",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1788717045263,
+      "tag": "0004_leads_telegram_username",
+      "breakpoints": true
     }
   ]
 }

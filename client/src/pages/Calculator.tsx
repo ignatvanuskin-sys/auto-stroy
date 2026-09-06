@@ -56,6 +56,7 @@ export default function Calculator() {
     "Звонок" | "WhatsApp" | "Telegram"
   >("Telegram");
   const [rawNotes, setRawNotes] = useState("");
+  const [telegramUsername, setTelegramUsername] = useState("");
   const [consent, setConsent] = useState(false);
   const [result, setResult] = useState<null | {
     leadId: number;
@@ -104,9 +105,19 @@ export default function Calculator() {
       ),
   });
 
+  const telegramUsernameValid =
+    telegramUsername.trim() === "" ||
+    /^@?[a-zA-Z0-9_]{4,32}$/.test(telegramUsername.trim());
+
   const canMove = () => {
     if (step === 6 && (!name.trim() || !phone.trim() || !consent)) {
       toast.error("Укажите имя, телефон и подтвердите согласие.");
+      return false;
+    }
+    if (step === 6 && !telegramUsernameValid) {
+      toast.error(
+        "Telegram-username должен начинаться с @ и содержать 4–32 символа: буквы, цифры и _"
+      );
       return false;
     }
     return true;
@@ -119,6 +130,10 @@ export default function Calculator() {
             name,
             phone,
             preferredChannel,
+            telegramUsername:
+              preferredChannel === "Telegram" && telegramUsername.trim()
+                ? telegramUsername.trim()
+                : null,
             rawNotes: rawNotes || null,
             budgetRange,
             desiredStart,
@@ -498,6 +513,31 @@ export default function Calculator() {
                         )}
                       </div>
                     </div>
+                    {preferredChannel === "Telegram" && (
+                      <div>
+                        <label className="text-xs font-extrabold uppercase tracking-[.12em] text-[#64706d]">
+                          Ваш Telegram-username{" "}
+                          <span className="normal-case opacity-65">
+                            (чтобы менеджер написал вам быстрее)
+                          </span>
+                        </label>
+                        <input
+                          className={`field mt-2 ${telegramUsername.trim() && !telegramUsernameValid ? "border-[#bc5c35] border-2" : ""}`}
+                          value={telegramUsername}
+                          onChange={e => setTelegramUsername(e.target.value)}
+                          placeholder="@username"
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          spellCheck={false}
+                        />
+                        <p
+                          className={`mt-2 text-[11px] font-bold ${telegramUsername.trim() && !telegramUsernameValid ? "text-[#bc5c35]" : "text-[#64706d]"}`}
+                        >
+                          Начинается с @, 4–32 символа: латинские буквы, цифры и
+                          _ — как в Telegram.
+                        </p>
+                      </div>
+                    )}
                     <div>
                       <label className="text-xs font-extrabold uppercase tracking-[.12em] text-[#64706d]">
                         Комментарий для менеджера{" "}

@@ -33,7 +33,9 @@ const PREFERRED_MODELS = [
 /** Provider catalogs also list non-chat models; never route qualification to them. */
 const NON_CHAT_MODEL = /whisper|guard|tts|embed|safeguard/i;
 
-export function pickModel(catalog: { data: Array<{ id: string }> }): string | undefined {
+export function pickModel(catalog: {
+  data: Array<{ id: string }>;
+}): string | undefined {
   const ids = catalog.data.map(item => item.id);
   return (
     PREFERRED_MODELS.find(id => ids.includes(id)) ??

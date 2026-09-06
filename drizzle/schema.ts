@@ -90,6 +90,7 @@ export const leads = mysqlTable("leads", {
   preferredChannel: varchar("preferredChannel", { length: 30 })
     .notNull()
     .default("Звонок"),
+  telegramUsername: varchar("telegramUsername", { length: 64 }),
   region: varchar("region", { length: 80 }).notNull(),
   projectType: varchar("projectType", { length: 64 }).notNull(),
   areaM2: int("areaM2").notNull(),

@@ -66,7 +66,9 @@ describe("pickModel", () => {
   });
 
   it("returns undefined for a catalog with only non-chat models", () => {
-    const catalog = { data: [{ id: "whisper-large-v3" }, { id: "playai-tts" }] };
+    const catalog = {
+      data: [{ id: "whisper-large-v3" }, { id: "playai-tts" }],
+    };
     expect(pickModel(catalog)).toBeUndefined();
   });
 

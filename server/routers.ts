@@ -57,6 +57,12 @@ const leadSchema = calculatorSchema.extend({
   name: z.string().min(2).max(120),
   phone: z.string().regex(/^[+\d][\d\s()\-]{8,}$/),
   preferredChannel: z.enum(["Звонок", "WhatsApp", "Telegram"]),
+  telegramUsername: z
+    .string()
+    .regex(/^@?[a-zA-Z0-9_]{4,31}$/)
+    .optional()
+    .nullable()
+    .or(z.literal("")),
   budgetRange: z.string().max(80).optional().nullable(),
   desiredStart: z.string().max(80).optional().nullable(),
   rawNotes: z.string().max(2000).optional().nullable(),
@@ -146,6 +152,11 @@ export const appRouter = router({
         name: input.name,
         phone: input.phone,
         preferredChannel: input.preferredChannel,
+        telegramUsername: input.telegramUsername
+          ? input.telegramUsername.startsWith("@")
+            ? input.telegramUsername
+            : `@${input.telegramUsername}`
+          : null,
         region: input.region,
         projectType: input.projectType,
         areaM2: input.areaM2,

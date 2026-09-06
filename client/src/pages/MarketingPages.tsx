@@ -20,7 +20,7 @@ const portfolio = [
   {
     slug: "bostandyk",
     title: "Дом на Бостандыке",
-    image: "/manus-storage/project-alatau_d5607163.jpg",
+    image: "/images/project-bostandyk.jpg",
     area: "210 м²",
     location: "Алматы",
     time: "7 месяцев",
@@ -32,7 +32,7 @@ const portfolio = [
   {
     slug: "panfilovo",
     title: "Семейный дом в Панфилово",
-    image: "/manus-storage/project-arkas_e2825fec.jpg",
+    image: "/images/project-panfilovo.jpg",
     area: "160 м²",
     location: "Алматинская обл.",
     time: "6 месяцев",
@@ -44,7 +44,7 @@ const portfolio = [
   {
     slug: "talgar",
     title: "Дом для большой семьи",
-    image: "/manus-storage/project-samruk_7a820867.jpg",
+    image: "/images/project-talgar.jpg",
     area: "240 м²",
     location: "Талгар",
     time: "8 месяцев",
@@ -56,7 +56,7 @@ const portfolio = [
   {
     slug: "kompaktny",
     title: "Компактный дом",
-    image: "/manus-storage/project-arkas_e2825fec.jpg",
+    image: "/images/project-kompaktny.jpg",
     area: "120 м²",
     location: "Алматы",
     time: "4 месяца",
@@ -68,7 +68,7 @@ const portfolio = [
   {
     slug: "kaskelen",
     title: "Дом с мастерской",
-    image: "/manus-storage/project-alatau_d5607163.jpg",
+    image: "/images/project-kaskelen.jpg",
     area: "180 м²",
     location: "Каскелен",
     time: "6 месяцев",
@@ -80,7 +80,7 @@ const portfolio = [
   {
     slug: "predgorye",
     title: "Дом у предгорья",
-    image: "/manus-storage/project-samruk_7a820867.jpg",
+    image: "/images/project-predgorye.jpg",
     area: "260 м²",
     location: "Алматы",
     time: "9 месяцев",
@@ -410,31 +410,11 @@ export function ProcessPage() {
       "Проектирование",
       "Подбор или адаптация проекта под участок и бюджет.",
     ],
-    [
-      "02",
-      "Фундамент",
-      "Геологические особенности участка определяют тип.",
-    ],
-    [
-      "03",
-      "Коробка",
-      "Стены, перекрытия, кровельная система.",
-    ],
-    [
-      "04",
-      "Кровля",
-      "Монтаж и утепление.",
-    ],
-    [
-      "05",
-      "Инженерия",
-      "Электрика, вода, отопление, канализация.",
-    ],
-    [
-      "06",
-      "Отделка и сдача",
-      "Чистовая отделка, приёмка, передача ключей.",
-    ],
+    ["02", "Фундамент", "Геологические особенности участка определяют тип."],
+    ["03", "Коробка", "Стены, перекрытия, кровельная система."],
+    ["04", "Кровля", "Монтаж и утепление."],
+    ["05", "Инженерия", "Электрика, вода, отопление, канализация."],
+    ["06", "Отделка и сдача", "Чистовая отделка, приёмка, передача ключей."],
   ];
   return (
     <MarketingShell>
@@ -506,8 +486,7 @@ export function AboutPage() {
           title={
             <>
               Дом, который начинается
-              <br />
-              с <span className="text-[#bc5c35]">точного расчёта.</span>
+              <br />с <span className="text-[#bc5c35]">точного расчёта.</span>
             </>
           }
           text="Мы начинали как бригада из четырёх человек, строившая дома для друзей и знакомых в пригороде Алматы. За девять лет выросли в компанию полного цикла."
@@ -527,8 +506,8 @@ export function AboutPage() {
             <div>
               <p className="eyebrow">Наша история</p>
               <h2 className="display mt-4 max-w-2xl text-4xl font-semibold leading-[.97]">
-                Мы одинаково внимательно относимся и к дому за 20 миллионов, и
-                к дому за 60.
+                Мы одинаково внимательно относимся и к дому за 20 миллионов, и к
+                дому за 60.
               </h2>
               <p className="mt-6 max-w-2xl text-sm leading-7 text-[#64706d]">
                 Мы начинали как бригада из четырёх человек, строившая дома для
@@ -698,7 +677,9 @@ export function ContactsPage() {
               </p>
               <div className="mt-10 grid gap-3 text-sm font-bold">
                 <a href="tel:+77000000000">+7 (700) 000-00-00 (DEMO)</a>
-                <a href="mailto:info@arqahouse-demo.kz">info@arqahouse-demo.kz</a>
+                <a href="mailto:info@arqahouse-demo.kz">
+                  info@arqahouse-demo.kz
+                </a>
                 <a href="#">Telegram</a>
               </div>
             </div>
