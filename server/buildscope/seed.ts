@@ -236,9 +236,18 @@ async function seed() {
   await db.delete(rateTables);
   await db.delete(companies);
   const [companyResult] = await db.insert(companies).values({
-    name: "Alatau Build",
-    slug: "alatau-build",
-    brandingConfig: { primary: "#bb5d32", region: "Алматы" },
+    name: "ARQA HOUSE",
+    slug: "arqa-house",
+    brandingConfig: {
+      primary: "#bc5c35",
+      region: "Алматы",
+      tagline: "Дом, который начинается с точного расчёта",
+      contacts: {
+        address: "г. Алматы, Бостандыкский р-н",
+        phone: "+7 (700) 000-00-00 (DEMO)",
+        email: "info@arqahouse-demo.kz",
+      },
+    },
   });
   const companyId = companyResult.insertId;
   const regions = ["Алматы", "Астана", "Шымкент", "Караганда", "Конаев"];
@@ -420,10 +429,10 @@ async function seed() {
     payload: {
       title: "HOT LEAD (92/100)",
       leadId: leadIds[0]!,
-      text: "Дом 180 м², Алматы. Бюджет: 35–40 млн ₸. Участок уже есть, понятный срок старта.",
+      text: "Дом 180 м², Алматы. Бюджет: 35–40 млн ₸. Участок уже есть, понятный срок старта.\n\n— BuildScope AI для ARQA HOUSE",
     },
   });
-  console.log("BuildScope AI seed completed");
+  console.log("ARQA HOUSE seed completed (powered by BuildScope AI)");
 }
 
 seed()

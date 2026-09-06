@@ -18,22 +18,40 @@ import { Link } from "wouter";
 
 const projects = [
   {
-    name: "Дом у Алатау",
-    meta: "186 м² · Алматы · 5 месяцев",
+    slug: "bostandyk",
+    name: "Дом на Бостандыке",
+    meta: "210 м² · Алматы · 7 месяцев",
     image: "/manus-storage/project-alatau_d5607163.jpg",
-    tag: "Стандарт",
+    tag: "Премиум",
   },
   {
-    name: "Резиденция Аркас",
-    meta: "142 м² · Конаев · 4 месяца",
+    slug: "panfilovo",
+    name: "Семейный дом в Панфилово",
+    meta: "160 м² · Алматинская обл. · 6 месяцев",
     image: "/manus-storage/project-arkas_e2825fec.jpg",
     tag: "Стандарт",
   },
   {
-    name: "Дом Самрук",
-    meta: "248 м² · Алматы · 7 месяцев",
+    slug: "predgorye",
+    name: "Дом у предгорья",
+    meta: "260 м² · Алматы · 9 месяцев",
     image: "/manus-storage/project-samruk_7a820867.jpg",
     tag: "Премиум",
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      "Понравилось, что ещё до звонка менеджеру я примерно понимал порядок цен — не нужно было гадать, по карману ли нам это вообще.",
+    author: "Данияр К.",
+    meta: "дом 190 м², Алматы",
+  },
+  {
+    quote:
+      "КП пришло на следующий день после заявки, со всеми расчётами. Сравнивали с двумя другими компаниями — у них ответ шёл неделю.",
+    author: "Айгуль С.",
+    meta: "дом 150 м², Талгар",
   },
 ];
 
@@ -58,20 +76,24 @@ const process = [
 
 const faqs = [
   [
-    "Насколько точен расчёт на сайте?",
-    "Он показывает честный ориентировочный диапазон по площади, региону и комплектации. Точную смету готовим после уточнения участка и проекта.",
+    "Расчёт на сайте точный?",
+    "Это предварительный ориентир по вашим параметрам. Точную смету готовим после уточнения деталей и, при необходимости, выезда на участок.",
   ],
   [
-    "Можно строить, если участка ещё нет?",
-    "Да. Поможем определить требования к участку и заранее спланировать будущий дом без привязки к случайной локации.",
+    "Что если бюджет меньше диапазона?",
+    "Обсудим, что можно оптимизировать — материал, комплектацию, этапность — без потери качества.",
   ],
   [
-    "Что входит в комплектацию «Стандарт»?",
-    "Конструктив, кровля, базовые инженерные системы и чистовая отделка. Полный состав фиксируем в коммерческом предложении.",
+    "Работаете ли в моём регионе?",
+    "Строим в Алматы и Алматинской области, по другим регионам — обсуждаем индивидуально.",
   ],
   [
-    "В каких регионах вы работаете?",
-    "В Алматы, Астане, Шымкенте, Караганде и Конаеве. Для других локаций оцениваем логистику индивидуально.",
+    "Сколько строится дом 150–200 м²?",
+    "В среднем 5–8 месяцев в зависимости от комплектации и сезона старта.",
+  ],
+  [
+    "Можно начать без готового проекта?",
+    "Да, поможем подобрать типовой или адаптировать ваш под площадь и бюджет.",
   ],
 ];
 
@@ -82,7 +104,7 @@ export default function Home() {
         <section className="relative isolate min-h-[730px] overflow-hidden border-b border-white/15">
           <img
             src="/manus-storage/hero-house_0c10fe95.jpg"
-            alt="Современный дом BuildScope у гор"
+            alt="Современный дом ARQA HOUSE у гор"
             className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(15,22,21,.92)_0%,rgba(15,22,21,.68)_42%,rgba(15,22,21,.13)_78%),linear-gradient(0deg,rgba(15,22,21,.45),transparent_45%)]" />
@@ -90,22 +112,24 @@ export default function Home() {
           <div className="mx-auto flex min-h-[665px] max-w-[1360px] flex-col justify-between px-5 pb-8 pt-20 lg:px-9 lg:pb-10 lg:pt-28">
             <div className="motion-reveal max-w-[690px]">
               <p className="eyebrow text-[#e9a07d]">
-                Частные дома под ключ · Казахстан
+                Частные дома под ключ · Алматы и область
               </p>
               <h1 className="display mt-5 text-[48px] font-semibold leading-[.94] tracking-[-.07em] text-white sm:text-[67px] lg:text-[86px]">
                 Дом, который
                 <br />
                 начинается с<br />
-                <span className="text-[#e9a07d]">ясности.</span>
+                <span className="text-[#e9a07d]">точного расчёта.</span>
               </h1>
               <p className="mt-8 max-w-md text-[16px] leading-7 text-white/76">
-                Проектируем и строим современные дома — с прозрачным процессом,
-                инженерной точностью и комфортом для вашей семьи.
+                ARQA HOUSE строит частные дома «под ключ» в Алматы и области с
+                2016 года. Прежде чем предложить смету — мы считаем, а не
+                гадаем.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <GlowingFrame className="w-fit" tone="dark">
                   <Link href="/calculator" className="btn-primary">
-                    Рассчитать стоимость дома <ArrowRight size={17} />
+                    Рассчитать стоимость дома за 2 минуты{" "}
+                    <ArrowRight size={17} />
                   </Link>
                 </GlowingFrame>
                 <Link href="/projects" className="btn-ghost">
@@ -115,21 +139,21 @@ export default function Home() {
             </div>
             <div className="motion-reveal motion-reveal--2 grid max-w-[780px] grid-cols-3 divide-x divide-white/20 border-y border-white/20 py-4 text-white">
               <div className="px-2">
-                <div className="display text-2xl font-bold">10 лет</div>
+                <div className="display text-2xl font-bold">9 лет</div>
                 <div className="mt-1 text-[10px] font-bold uppercase tracking-[.1em] text-white/55">
-                  в частном строительстве
+                  на рынке — с 2016 года
                 </div>
               </div>
               <div className="px-4">
-                <div className="display text-2xl font-bold">47</div>
+                <div className="display text-2xl font-bold">180+</div>
                 <div className="mt-1 text-[10px] font-bold uppercase tracking-[.1em] text-white/55">
-                  реализованных домов
+                  построенных домов
                 </div>
               </div>
               <div className="px-4">
-                <div className="display text-2xl font-bold">5–8 мес.</div>
+                <div className="display text-2xl font-bold">Своё произв.</div>
                 <div className="mt-1 text-[10px] font-bold uppercase tracking-[.1em] text-white/55">
-                  типовой срок строительства
+                  и монтажные бригады
                 </div>
               </div>
             </div>
@@ -269,7 +293,7 @@ export default function Home() {
             <div className="mt-12 grid gap-5 md:grid-cols-3">
               {projects.map((project, i) => (
                 <Link
-                  href={`/projects/${i === 0 ? "alatau" : i === 1 ? "arkas" : "samruk"}`}
+                  href={`/projects/${project.slug}`}
                   key={project.name}
                   className="group motion-reveal"
                   style={{ animationDelay: `${i * 70}ms` }}
@@ -298,6 +322,34 @@ export default function Home() {
                     </span>
                   </div>
                 </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-[#f5f3ed] px-5 py-20 text-[#18201f] lg:px-9 lg:py-28">
+          <div className="mx-auto max-w-[1360px]">
+            <p className="eyebrow">Отзывы владельцев домов</p>
+            <h2 className="display mt-4 max-w-2xl text-4xl font-semibold sm:text-5xl">
+              Слова тех, кто уже{" "}
+              <span className="text-[#bc5c35]">прошёл этот путь.</span>
+            </h2>
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
+              {testimonials.map(t => (
+                <figure
+                  key={t.author}
+                  className="flex flex-col justify-between border border-[#18201f]/15 bg-[#f8f6f0] p-7"
+                >
+                  <blockquote className="text-[15px] leading-7">
+                    «{t.quote}»
+                  </blockquote>
+                  <figcaption className="mt-7 border-t border-[#18201f]/10 pt-4 text-xs font-extrabold">
+                    {t.author}
+                    <span className="ml-2 font-bold text-[#64706d]">
+                      {t.meta}
+                    </span>
+                  </figcaption>
+                </figure>
               ))}
             </div>
           </div>

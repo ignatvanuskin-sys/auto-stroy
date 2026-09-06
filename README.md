@@ -1,4 +1,6 @@
-# BuildScope AI — платформа продаж для строительной компании
+# BuildScope AI × ARQA HOUSE — платформа продаж для частного домостроения
+
+**BuildScope AI** — система автоматизации продаж (IP разработчика): калькулятор с детерминированным расчётом, AI-квалификация лидов, PDF-КП, CRM, Telegram-уведомления, аналитика. **ARQA HOUSE** — демо-бренд клиента (self-initiated концепт-кейс): частное домостроение «под ключ», Алматы и область, с 2016 года, 180+ домов.
 
 Публичный сайт с многошаговым калькулятором стоимости дома и CRM (Kanban, лиды, КП, задачи, аналитика, тарифы). Deterministic-расчёты: цена и скоринг лида считаются чистыми функциями, AI только помогает квалифицировать заявку и никогда не блокирует её приём.
 
@@ -33,7 +35,7 @@ pnpm install
 cp .env.example .env           # заполните DATABASE_URL (и JWT_SECRET для прод)
 
 pnpm db:push                   # сгенерировать и применить миграции
-pnpm seed                      # демо-данные: компания alatau-build, 12 лидов, тарифы
+pnpm seed                      # демо-данные: компания arqa-house, 12 лидов, тарифы
 
 pnpm dev                       # http://localhost:3000
 ```
@@ -48,19 +50,19 @@ pnpm build    # vite build + esbuild сервера
 
 ### Структура тестового покрытия
 
-| Область | Файл | Что проверяется |
-|---|---|---|
-| Расчёт цены | `server/buildscope/business.test.ts` | Детерминированность, округление 0.5/1 млн, клемпинг площади/этажей, коэффициенты |
-| Скоринг лида | `server/buildscope/business.test.ts` | Границы band'ов (cold/warm/hot/very_hot), budget mismatch, потолок 100 |
-| AI-квалификация | `server/buildscope/qualification.test.ts` | Rule-based путь, безопасный fallback при недоступном LLM |
-| PDF-пропозал | `server/buildscope/proposal.test.ts` | Валидный PDF, экранирование символов, диапазон в теле документа |
-| **API-процедуры** | `server/routers.test.ts` | Валидация входа, создание лида + уведомление hot/cold, смена статуса, задачи, версии тарифов (+CONFLICT при гонке), logout/me |
-| **Auth-gate CRM** | `server/crm.gate.test.ts` | CRM_DEMO_MODE=false: UNAUTHORIZED/FORBIDDEN/ALLOWED по ролям; demo-режим; публичные чтения |
-| Health-check | `server/_core/health.test.ts` | Статусы database ok/unavailable, 200 при сбое пробы |
-| Rate limiting | `server/_core/rateLimit.test.ts` | Окно, независимость клиентов, x-forwarded-for |
-| Telegram outbox | `server/_core/telegramWorker*.test.ts` | Извлечение payload, отправка, retry/failed семантика |
-| OAuth state | `shared/const.test.ts` | Round-trip, защита от подделки nonce, legacy-формат |
-| UI-утилиты | `client/src/lib/*.test.ts` | cn() (tailwind-merge), motion-классы |
+| Область           | Файл                                      | Что проверяется                                                                                                               |
+| ----------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Расчёт цены       | `server/buildscope/business.test.ts`      | Детерминированность, округление 0.5/1 млн, клемпинг площади/этажей, коэффициенты                                              |
+| Скоринг лида      | `server/buildscope/business.test.ts`      | Границы band'ов (cold/warm/hot/very_hot), budget mismatch, потолок 100                                                        |
+| AI-квалификация   | `server/buildscope/qualification.test.ts` | Rule-based путь, безопасный fallback при недоступном LLM                                                                      |
+| PDF-пропозал      | `server/buildscope/proposal.test.ts`      | Валидный PDF, экранирование символов, диапазон в теле документа                                                               |
+| **API-процедуры** | `server/routers.test.ts`                  | Валидация входа, создание лида + уведомление hot/cold, смена статуса, задачи, версии тарифов (+CONFLICT при гонке), logout/me |
+| **Auth-gate CRM** | `server/crm.gate.test.ts`                 | CRM_DEMO_MODE=false: UNAUTHORIZED/FORBIDDEN/ALLOWED по ролям; demo-режим; публичные чтения                                    |
+| Health-check      | `server/_core/health.test.ts`             | Статусы database ok/unavailable, 200 при сбое пробы                                                                           |
+| Rate limiting     | `server/_core/rateLimit.test.ts`          | Окно, независимость клиентов, x-forwarded-for                                                                                 |
+| Telegram outbox   | `server/_core/telegramWorker*.test.ts`    | Извлечение payload, отправка, retry/failed семантика                                                                          |
+| OAuth state       | `shared/const.test.ts`                    | Round-trip, защита от подделки nonce, legacy-формат                                                                           |
+| UI-утилиты        | `client/src/lib/*.test.ts`                | cn() (tailwind-merge), motion-классы                                                                                          |
 
 ## Деплой (Railway)
 
@@ -97,4 +99,4 @@ pnpm build    # vite build + esbuild сервера
 
 ## Demo-режим CRM
 
-CRM-маршруты публичны и работают на seed-компании `alatau-build` (сервер сам резолвит `companyId`, клиент не может выбрать тенант). Перед продовым запуском с реальными клиентами: перевести CRM-мутации на `protectedProcedure` и добавить проверку `crmRole` (owner/manager/analyst) — см. `docs/ARCHITECTURE.md`.
+CRM-маршруты публичны и работают на seed-компании `arqa-house` (сервер сам резолвит `companyId`, клиент не может выбрать тенант). Перед продовым запуском с реальными клиентами: перевести CRM-мутации на `protectedProcedure` и добавить проверку `crmRole` (owner/manager/analyst) — см. `docs/ARCHITECTURE.md`.

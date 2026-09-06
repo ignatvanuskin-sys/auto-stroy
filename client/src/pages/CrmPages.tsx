@@ -133,7 +133,7 @@ export function CrmDashboard() {
             </h2>
           </div>
           <p className="text-xs leading-5 text-[#64706d]">
-            Сводка по входящим заявкам и активным сделкам команды Alatau Build.
+            Сводка по входящим заявкам и активным сделкам команды ARQA HOUSE.
           </p>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -1110,14 +1110,15 @@ export function CrmSettings() {
             <section className="card-dark p-6">
               <p className="eyebrow text-[#e9a07d]">Company Profile</p>
               <h3 className="display mt-4 text-3xl font-semibold">
-                Alatau Build
+                ARQA HOUSE
               </h3>
               <p className="mt-5 text-sm leading-6 text-white/60">
-                Private construction company · Алматы, Казахстан
+                Частное домостроение под ключ · Алматы, Бостандыкский р-н
               </p>
               <div className="mt-7 border-t border-white/15 pt-5 text-xs leading-6 text-white/75">
-                <p>
-                  Основные регионы: Алматы, Астана, Шымкент, Караганда, Конаев.
+                <p>info@arqahouse-demo.kz · +7 (700) 000-00-00 (demo)</p>
+                <p className="mt-3">
+                  С 2016 года · 180+ домов · собственные монтажные бригады.
                 </p>
                 <p className="mt-3">Акцентный цвет: терракотовый.</p>
               </div>

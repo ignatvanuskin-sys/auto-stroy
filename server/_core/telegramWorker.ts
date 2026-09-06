@@ -11,6 +11,7 @@ type OutboxPayload = {
 
 const POLL_INTERVAL_MS = 60_000;
 const MAX_MESSAGE_LENGTH = 3_500;
+const MESSAGE_SIGNATURE = "\n\n— BuildScope AI для ARQA HOUSE";
 
 /** Exported for tests; not part of the public API. */
 export function extractOutboxText(
@@ -91,7 +92,7 @@ export async function processQueue(): Promise<void> {
 
     const result = await sendTelegramMessage(
       ENV.telegramChatId,
-      `${content.title ? `${content.title}\n` : ""}${content.text}`
+      `${content.title ? `${content.title}\n` : ""}${content.text}${MESSAGE_SIGNATURE}`
     );
     if (result === "retry") continue; // stay queued, next tick retries
     await db

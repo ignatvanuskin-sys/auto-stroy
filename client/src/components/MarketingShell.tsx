@@ -32,17 +32,17 @@ export default function MarketingShell({
           <Link
             href="/"
             className="flex items-center gap-3"
-            aria-label="BuildScope AI"
+            aria-label="ARQA HOUSE"
           >
             <span className="grid h-8 w-8 place-items-center bg-[#bc5c35] font-black text-white">
-              B
+              A
             </span>
             <div className="leading-none">
-              <strong className="display block text-[17px] font-bold tracking-[-.06em]">
-                BuildScope
+              <strong className="display block text-[17px] font-bold tracking-[.02em]">
+                ARQA HOUSE
               </strong>
               <span className="mt-1 block text-[8px] font-extrabold uppercase tracking-[.18em] opacity-60">
-                private construction
+                дома под ключ · алматы
               </span>
             </div>
           </Link>
@@ -119,13 +119,13 @@ export default function MarketingShell({
           <div>
             <div className="flex items-center gap-3">
               <span className="grid h-7 w-7 place-items-center bg-[#bc5c35] text-xs font-black text-white">
-                B
+                A
               </span>
-              <strong className="display text-lg">BuildScope</strong>
+              <strong className="display text-lg">ARQA HOUSE</strong>
             </div>
             <p className="mt-4 max-w-sm text-xs leading-6 opacity-65">
-              Система, которая превращает интерес к дому в понятный проект и
-              быструю работу команды продаж.
+              Строим частные дома под ключ в Алматы и Алматинской области. Дом,
+              который начинается с точного расчёта.
             </p>
           </div>
           <div>
@@ -141,16 +141,16 @@ export default function MarketingShell({
           <div>
             <p className="eyebrow">Контакты</p>
             <div className="mt-4 grid gap-2 text-xs font-bold opacity-80">
-              <a href="tel:+77010000000">+7 701 000 00 00</a>
-              <a href="mailto:hello@buildscope.kz">hello@buildscope.kz</a>
-              <Link href="/contacts">Алматы, Казахстан</Link>
+              <a href="tel:+77000000000">+7 (700) 000-00-00</a>
+              <a href="mailto:info@arqahouse-demo.kz">info@arqahouse-demo.kz</a>
+              <Link href="/contacts">Алматы, Бостандыкский р-н</Link>
             </div>
           </div>
         </div>
         <div className="mx-auto mt-10 flex max-w-[1360px] items-center justify-between border-t border-current/15 pt-5 text-[10px] font-bold uppercase tracking-[.12em] opacity-45">
-          <span>© 2026 BuildScope AI</span>
+          <span>© 2026 ARQA HOUSE</span>
           <span className="flex items-center gap-1">
-            <Compass size={12} /> Construction Sales & Automation
+            <Compass size={12} /> Powered by BuildScope AI
           </span>
         </div>
       </footer>

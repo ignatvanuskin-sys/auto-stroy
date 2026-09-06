@@ -214,7 +214,7 @@ export const appRouter = router({
           payload: {
             title: `${scoring.band === "very_hot" ? "VERY HOT" : "HOT"} LEAD (${scoring.score}/100)`,
             leadId,
-            text: `${input.projectType} ${input.areaM2} м², ${input.region}. ${formatEstimateRange(estimate)}. ${ai.summary}`,
+            text: `${input.projectType} ${input.areaM2} м², ${input.region}. ${formatEstimateRange(estimate)}. ${ai.summary}\n\n— BuildScope AI для ARQA HOUSE`,
           },
         });
       }

@@ -1,4 +1,4 @@
-export const DEMO_COMPANY_SLUG = "alatau-build";
+export const DEMO_COMPANY_SLUG = "arqa-house";
 
 export type FinishTier = "economy" | "standard" | "premium";
 export type LeadIntent =

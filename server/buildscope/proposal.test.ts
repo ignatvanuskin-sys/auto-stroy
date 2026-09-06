@@ -29,6 +29,13 @@ describe("buildProposalPdf", () => {
     expect(pdf.trimEnd().endsWith("%%EOF")).toBe(true);
   });
 
+  it("carries the ARQA HOUSE header and sales-department signature", () => {
+    const pdf = decode(buildProposalPdf(baseInput)).toString("latin1");
+    expect(pdf).toContain("ARQA HOUSE / PRELIMINARY COMMERCIAL PROPOSAL");
+    expect(pdf).toContain("ARQA HOUSE sales department");
+    expect(pdf).toContain("Powered by BuildScope AI");
+  });
+
   it("escapes parentheses and backslashes; non-latin chars become placeholders", () => {
     const pdf = decode(
       buildProposalPdf({ ...baseInput, clientName: "А (тест) \\ odd" })

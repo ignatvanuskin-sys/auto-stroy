@@ -246,12 +246,16 @@ describe("calculator.submitLead", () => {
     const notification = insertCalls[3]!.values as {
       status: string;
       channel: string;
-      payload: { title: string };
+      payload: { title: string; text: string };
     };
     expect(notification.status).toBe("queued");
     expect(notification.channel).toBe("Telegram");
     expect(notification.payload.title).toContain("HOT LEAD");
     expect(notification.payload.title).toContain("(75/100)");
+    // Brand signature required by the case-study pack.
+    expect(notification.payload.text).toContain(
+      "— BuildScope AI для ARQA HOUSE"
+    );
   });
 
   it("does not queue a notification for a cold lead", async () => {
