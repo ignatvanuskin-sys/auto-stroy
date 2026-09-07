@@ -9,7 +9,12 @@ import viteConfig from "../../vite.config";
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
     middlewareMode: true,
-    hmr: { server },
+    // The managed preview terminates HTTP at a public proxy. Passing the
+    // Express server here makes Vite advertise localhost:5173 to the browser,
+    // which cannot establish the HMR websocket through that proxy. The
+    // runtime already reloads the dev server on file changes, so disable the
+    // browser websocket in this deployment mode.
+    hmr: false,
     allowedHosts: true as const,
   };
 
