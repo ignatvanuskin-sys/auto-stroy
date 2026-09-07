@@ -1,7 +1,11 @@
-export const DEMO_COMPANY_SLUG = "alatau-build";
+export const DEMO_COMPANY_SLUG = "arqa-house";
 
 export type FinishTier = "economy" | "standard" | "premium";
-export type LeadIntent = "genuine_buyer" | "researcher" | "competitor_or_spam" | "unclear";
+export type LeadIntent =
+  | "genuine_buyer"
+  | "researcher"
+  | "competitor_or_spam"
+  | "unclear";
 export type ScoreBand = "cold" | "warm" | "hot" | "very_hot";
 
 export type EstimateInput = {
@@ -30,25 +34,25 @@ const tierRates: Record<FinishTier, number> = {
 };
 
 const materialCoefficients: Record<string, number> = {
-  "Кирпич": 1.08,
-  "Газоблок": 1,
-  "Каркас": 0.9,
-  "Брус": 1.04,
+  Кирпич: 1.08,
+  Газоблок: 1,
+  Каркас: 0.9,
+  Брус: 1.04,
   "Не уверен": 1,
 };
 
 const regionalCoefficients: Record<string, number> = {
   "Алматы": 1.06,
-  "Астана": 1.04,
-  "Шымкент": 0.96,
-  "Караганда": 0.94,
+  "Талгар": 1.05,
+  "Каскелен": 1.02,
   "Конаев": 1,
+  "Алматинская обл.": 0.98,
 };
 
 const foundationCoefficients: Record<string, number> = {
-  "Плитный": 1.16,
-  "Ленточный": 1.04,
-  "Свайный": 1.1,
+  Плитный: 1.16,
+  Ленточный: 1.04,
+  Свайный: 1.1,
   "Не знаю": 1.08,
 };
 
@@ -69,11 +73,20 @@ export function estimateProject(input: EstimateInput): EstimateResult {
   const material = materialCoefficients[input.material] ?? 1;
   const region = regionalCoefficients[input.region] ?? 1.02;
   const floorCoefficient = 1 + (safeFloors - 1) * 0.09;
-  const foundation = foundationCoefficients[input.foundation ?? "Не знаю"] ?? 1.08;
+  const foundation =
+    foundationCoefficients[input.foundation ?? "Не знаю"] ?? 1.08;
   const logistics = input.hasLand ? 1 : 1.06;
   const engineering = input.engineering ?? [];
   const addons = engineering.includes("Тёплый пол") ? 900_000 : 0;
-  const adjusted = safeArea * baseRate * material * region * floorCoefficient * foundation * logistics + addons;
+  const adjusted =
+    safeArea *
+      baseRate *
+      material *
+      region *
+      floorCoefficient *
+      foundation *
+      logistics +
+    addons;
   const step = adjusted >= 40_000_000 ? 1_000_000 : 500_000;
 
   return {
@@ -114,13 +127,19 @@ export type ScoreInput = {
   confidence?: number | null;
 };
 
-export type ScoreResult = { score: number; band: ScoreBand; reasons: string[]; budgetMismatch: boolean };
+export type ScoreResult = {
+  score: number;
+  band: ScoreBand;
+  reasons: string[];
+  budgetMismatch: boolean;
+};
 
 export function scoreLead(input: ScoreInput): ScoreResult {
   let score = 0;
   const reasons: string[] = [];
   const budget = budgetToAmount(input.budgetRange);
-  const budgetMismatch = budget !== null && budget < input.estimate.lowAmount * 0.7;
+  const budgetMismatch =
+    budget !== null && budget < input.estimate.lowAmount * 0.7;
 
   if (budget !== null && !budgetMismatch) {
     score += 25;
@@ -134,7 +153,13 @@ export function scoreLead(input: ScoreInput): ScoreResult {
     score += 15;
     reasons.push("понятный срок старта");
   }
-  if (input.areaM2 && input.region && input.name && input.phone && input.finishTier) {
+  if (
+    input.areaM2 &&
+    input.region &&
+    input.name &&
+    input.phone &&
+    input.finishTier
+  ) {
     score += 10;
     reasons.push("заполнены ключевые параметры проекта");
   }
@@ -156,7 +181,14 @@ export function scoreLead(input: ScoreInput): ScoreResult {
   }
 
   score = Math.min(100, score);
-  const band: ScoreBand = score >= 81 ? "very_hot" : score >= 61 ? "hot" : score >= 31 ? "warm" : "cold";
+  const band: ScoreBand =
+    score >= 81
+      ? "very_hot"
+      : score >= 61
+        ? "hot"
+        : score >= 31
+          ? "warm"
+          : "cold";
   return { score, band, reasons, budgetMismatch };
 }
 
@@ -165,11 +197,14 @@ export function formatMoney(amount: number) {
     style: "currency",
     currency: "KZT",
     maximumFractionDigits: 0,
-  }).format(amount).replace("₸", "₸");
+  })
+    .format(amount)
+    .replace("₸", "₸");
 }
 
 export function formatEstimateRange(estimate: EstimateResult) {
-  const toMillions = (amount: number) => (amount / 1_000_000).toLocaleString("ru-RU", { maximumFractionDigits: 1 });
+  const toMillions = (amount: number) =>
+    (amount / 1_000_000).toLocaleString("ru-RU", { maximumFractionDigits: 1 });
   return `${toMillions(estimate.lowAmount)}–${toMillions(estimate.highAmount)} млн ₸`;
 }
 

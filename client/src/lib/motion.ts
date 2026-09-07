@@ -7,5 +7,8 @@ export function getRevealClass(index: number) {
 }
 
 export function supportsMotion() {
-  return typeof window === "undefined" || !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return (
+    typeof window === "undefined" ||
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
 }

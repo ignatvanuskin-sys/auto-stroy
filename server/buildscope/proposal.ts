@@ -19,7 +19,7 @@ function pdfEscape(value: string) {
 /** Minimal deterministic PDF document. UI keeps a full Cyrillic preview; the downloadable file uses portable Latin headings. */
 export function buildProposalPdf(input: ProposalInput) {
   const lines = [
-    "BUILDSCOPE AI / PRELIMINARY COMMERCIAL PROPOSAL",
+    "ARQA HOUSE / PRELIMINARY COMMERCIAL PROPOSAL",
     `Proposal: ${input.proposalNumber}`,
     "",
     "CLIENT AND PROJECT",
@@ -39,10 +39,16 @@ export function buildProposalPdf(input: ProposalInput) {
     "This is a preliminary range, not a fixed quotation or contract offer.",
     "The final estimate is prepared after the project details are clarified.",
     "",
-    "BuildScope AI / construction sales automation demo",
+    "ARQA HOUSE sales department",
+    "Powered by BuildScope AI",
   ];
   const content = ["BT", "/F1 12 Tf", "50 790 Td", "16 TL"]
-    .concat(lines.map((line, index) => `${index === 0 ? "/F1 15 Tf" : "/F1 10 Tf"} (${pdfEscape(line)}) Tj T*`))
+    .concat(
+      lines.map(
+        (line, index) =>
+          `${index === 0 ? "/F1 15 Tf" : "/F1 10 Tf"} (${pdfEscape(line)}) Tj T*`
+      )
+    )
     .concat(["ET"])
     .join("\n");
   const objects = [

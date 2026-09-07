@@ -7,4 +7,13 @@ export const ENV = {
   isProduction: process.env.NODE_ENV === "production",
   forgeApiUrl: process.env.BUILT_IN_FORGE_API_URL ?? "",
   forgeApiKey: process.env.BUILT_IN_FORGE_API_KEY ?? "",
+  /**
+   * Demo mode keeps CRM mutations public for showcase purposes (the seeded
+   * tenant is rendered without login). Set CRM_DEMO_MODE=false in production
+   * to require an authenticated owner/manager for every CRM mutation.
+   */
+  crmDemoMode: process.env.CRM_DEMO_MODE !== "false",
+  telegramBotToken: process.env.TELEGRAM_BOT_TOKEN ?? "",
+  telegramChatId: process.env.TELEGRAM_CHAT_ID ?? "",
+  telegramWorkerEnabled: process.env.ENABLE_TELEGRAM_WORKER === "true",
 };

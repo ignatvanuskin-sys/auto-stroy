@@ -1,52 +1,38 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle, Home } from "lucide-react";
-import { useLocation } from "wouter";
+import { AlertTriangle, Home } from "lucide-react";
+import { Link, useLocation } from "wouter";
 
 export default function NotFound() {
   const [, setLocation] = useLocation();
 
-  const handleGoHome = () => {
-    setLocation("/");
-  };
-
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-      <Card className="w-full max-w-lg mx-4 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
-        <CardContent className="pt-8 pb-8 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="relative">
-              <div className="absolute inset-0 bg-red-100 rounded-full animate-pulse" />
-              <AlertCircle className="relative h-16 w-16 text-red-500" />
-            </div>
-          </div>
-
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">404</h1>
-
-          <h2 className="text-xl font-semibold text-slate-700 mb-4">
-            Page Not Found
-          </h2>
-
-          <p className="text-slate-600 mb-8 leading-relaxed">
-            Sorry, the page you are looking for doesn't exist.
-            <br />
-            It may have been moved or deleted.
-          </p>
-
-          <div
-            id="not-found-button-group"
-            className="flex flex-col sm:flex-row gap-3 justify-center"
+    <div className="min-h-screen w-full bg-[#f5f3ed] flex items-center justify-center px-5 py-16 text-[#18201f]">
+      <div className="card max-w-lg w-full p-8 sm:p-12 text-center">
+        <div className="flex justify-center">
+          <span className="grid h-14 w-14 place-items-center border border-[#18201f]/15 text-[#bc5c35]">
+            <AlertTriangle size={26} />
+          </span>
+        </div>
+        <p className="eyebrow mt-8">Ошибка 404</p>
+        <h1 className="display mt-2 text-4xl font-semibold sm:text-5xl">
+          Страница не найдена
+        </h1>
+        <p className="mt-4 text-sm leading-6 text-[#64706d]">
+          Похоже, такой страницы не существует или она была перемещена.
+          Вернитесь на главную или откройте калькулятор расчёта.
+        </p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <button
+            type="button"
+            onClick={() => setLocation("/")}
+            className="btn-primary"
           >
-            <Button
-              onClick={handleGoHome}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
-            >
-              <Home className="w-4 h-4 mr-2" />
-              Go Home
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            <Home size={16} /> На главную
+          </button>
+          <Link href="/calculator" className="btn-outline">
+            Калькулятор
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
