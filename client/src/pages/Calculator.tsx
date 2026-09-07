@@ -227,10 +227,12 @@ export default function Calculator() {
     title: string,
     selected: boolean,
     onClick: () => void,
-    hint?: string
+    hint?: string,
+    key?: string
   ) => (
     <button
       type="button"
+      key={key}
       onClick={onClick}
       className={`choice ${selected ? "is-selected" : ""}`}
     >
@@ -313,7 +315,8 @@ export default function Calculator() {
                           ? "Для постоянной жизни"
                           : item === "Коттедж"
                             ? "Больше пространства"
-                            : "Для отдыха"
+                            : "Для отдыха",
+                        item
                       )
                     )}
                     <div className="sm:col-span-3 mt-3">
@@ -325,7 +328,9 @@ export default function Calculator() {
                           choice(
                             `${item} ${item === 1 ? "этаж" : "этажа"}`,
                             floors === item,
-                            () => setFloors(item)
+                            () => setFloors(item),
+                            undefined,
+                            `floor-${item}`
                           )
                         )}
                       </div>
@@ -357,7 +362,7 @@ export default function Calculator() {
                     </label>
                     <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
                       {regions.map(item =>
-                        choice(item, region === item, () => setRegion(item))
+                        choice(item, region === item, () => setRegion(item), undefined, item)
                       )}
                     </div>
                   </div>
@@ -379,7 +384,8 @@ export default function Calculator() {
                           title,
                           material === title,
                           () => setMaterial(title),
-                          hint
+                          hint,
+                          title
                         )
                       )}
                     </div>
@@ -392,7 +398,8 @@ export default function Calculator() {
                           item.title,
                           finishTier === item.id,
                           () => setFinishTier(item.id),
-                          item.hint
+                          item.hint,
+                          item.id
                         )
                       )}
                     </div>
@@ -407,8 +414,7 @@ export default function Calculator() {
                       {["Плитный", "Ленточный", "Свайный", "Не знаю"].map(
                         item =>
                           choice(item, foundation === item, () =>
-                            setFoundation(item)
-                          )
+                            setFoundation(item), undefined, item)
                       )}
                     </div>
                     <p className="mt-8 text-xs font-extrabold uppercase tracking-[.12em] text-[#64706d]">
@@ -423,8 +429,7 @@ export default function Calculator() {
                         "Тёплый пол",
                       ].map(item =>
                         choice(item, engineering.includes(item), () =>
-                          toggleEngineering(item)
-                        )
+                          toggleEngineering(item), undefined, item)
                       )}
                     </div>
                     <p className="mt-8 text-xs font-extrabold uppercase tracking-[.12em] text-[#64706d]">
@@ -449,8 +454,7 @@ export default function Calculator() {
                       {["ASAP", "3–6 мес", "6–12 мес", "Изучаю рынок"].map(
                         item =>
                           choice(item, desiredStart === item, () =>
-                            setDesiredStart(item)
-                          )
+                            setDesiredStart(item), undefined, item)
                       )}
                     </div>
                     <p className="mt-8 text-xs font-extrabold uppercase tracking-[.12em] text-[#64706d]">
@@ -467,8 +471,7 @@ export default function Calculator() {
                         "Не готов озвучивать",
                       ].map(item =>
                         choice(item, budgetRange === item, () =>
-                          setBudgetRange(item)
-                        )
+                          setBudgetRange(item), undefined, item)
                       )}
                     </div>
                   </div>
@@ -508,8 +511,7 @@ export default function Calculator() {
                         {(["Звонок", "WhatsApp", "Telegram"] as const).map(
                           item =>
                             choice(item, preferredChannel === item, () =>
-                              setPreferredChannel(item)
-                            )
+                              setPreferredChannel(item), undefined, item)
                         )}
                       </div>
                     </div>
