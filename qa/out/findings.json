@@ -1,0 +1,24 @@
+{
+  "consoleErrors": [
+    "[desktop] Failed to load resource: the server responded with a status of 502 ()",
+    "[desktop] Failed to load resource: the server responded with a status of 502 ()",
+    "[desktop] Failed to load resource: the server responded with a status of 502 ()",
+    "[desktop] Failed to load resource: the server responded with a status of 502 ()",
+    "[desktop] Failed to load resource: the server responded with a status of 502 ()",
+    "[desktop] Failed to load resource: the server responded with a status of 502 ()",
+    "[desktop] Failed to load resource: the server responded with a status of 502 ()",
+    "[desktop] Failed to load resource: the server responded with a status of 502 ()",
+    "[desktop] Failed to load resource: the server responded with a status of 502 ()"
+  ],
+  "failedRequests": [
+    "[desktop] 502 https://auto-stroy-production.up.railway.app/%VITE_ANALYTICS_ENDPOINT%/umami",
+    "[desktop] 502 https://auto-stroy-production.up.railway.app/%VITE_ANALYTICS_ENDPOINT%/umami",
+    "[desktop] 502 https://auto-stroy-production.up.railway.app/%VITE_ANALYTICS_ENDPOINT%/umami",
+    "[desktop] 502 https://auto-stroy-production.up.railway.app/crm/%VITE_ANALYTICS_ENDPOINT%/umami",
+    "[desktop] 502 https://auto-stroy-production.up.railway.app/crm/%VITE_ANALYTICS_ENDPOINT%/umami",
+    "[desktop] 502 https://auto-stroy-production.up.railway.app/crm/%VITE_ANALYTICS_ENDPOINT%/umami",
+    "[desktop] 502 https://auto-stroy-production.up.railway.app/crm/%VITE_ANALYTICS_ENDPOINT%/umami",
+    "[desktop] 502 https://auto-stroy-production.up.railway.app/crm/%VITE_ANALYTICS_ENDPOINT%/umami",
+    "[desktop] 502 https://auto-stroy-production.up.railway.app/crm/%VITE_ANALYTICS_ENDPOINT%/umami"
+  ]
+}

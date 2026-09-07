@@ -360,7 +360,7 @@ export function CrmLeads() {
               <List size={15} /> Таблица
             </button>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-[11px] font-bold text-[#64706d]">Score:</span>
             {[undefined, "very_hot", "hot", "warm", "cold"].map(value => (
               <button
@@ -582,8 +582,9 @@ export function CrmLeadDetail() {
           </div>
           <div className="flex flex-wrap gap-2">
             <select
-              className="h-[40px] border border-[#18201f]/15 bg-[#fffefa] px-3 text-xs font-extrabold"
+              className="h-[40px] border border-[#18201f]/15 bg-[#fffefa] px-3 text-xs font-extrabold disabled:opacity-50"
               value={lead.status}
+              disabled={update.isPending}
               onChange={e =>
                 update.mutate({ id, status: e.target.value as any })
               }
@@ -731,9 +732,15 @@ export function CrmLeadDetail() {
                       title: "Связаться с клиентом и уточнить детали",
                     })
                   }
+                  disabled={createTask.isPending}
+                  aria-label="Создать задачу"
                   className="grid h-8 w-8 place-items-center border border-[#18201f]/15"
                 >
-                  <Plus size={16} />
+                  {createTask.isPending ? (
+                    <Loader2 size={14} className="animate-spin" />
+                  ) : (
+                    <Plus size={16} />
+                  )}
                 </button>
               </div>
               <div className="mt-5 grid gap-3">
