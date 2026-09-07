@@ -20,6 +20,7 @@ body { margin: 0; min-width: 320px; background: var(--paper); color: var(--ink);
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
 a { color: inherit; text-decoration: none; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid rgba(188,92,53,.48); outline-offset: 3px; }
 ::selection { background: #e5b39e; color: #2b211d; }
 
 .display { font-family: "Space Grotesk", "Manrope", sans-serif; letter-spacing: -0.055em; }
@@ -61,6 +62,11 @@ textarea.field { min-height: 108px; padding: 13px 15px; resize: vertical; }
 .kanban-column { min-width: 228px; width: 250px; border-top: 2px solid var(--line); }
 .lead-card { border: 1px solid var(--line); background: #fffefa; padding: 13px; transition: transform .16s cubic-bezier(.23,1,.32,1), box-shadow .18s ease; }
 .lead-card:hover { box-shadow: 0 10px 28px rgba(28,35,33,.08); transform: translateY(-2px); }
+.step-panel { animation: reveal-up .32s cubic-bezier(.23,1,.32,1) both; }
+.page-section { animation: reveal-up .55s cubic-bezier(.23,1,.32,1) both; }
+.skeleton-bar { position: relative; overflow: hidden; background: #e5e2d9; }
+.skeleton-bar:after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent); animation: skeleton-sweep 1.35s ease-in-out infinite; }
+.crm-nav:active, .lead-card:active, .choice:active { transform: scale(.985); }
 .timeline-line { position: relative; padding-left: 24px; }
 .timeline-line:before { content: ""; position: absolute; left: 5px; top: 7px; bottom: -20px; width: 1px; background: var(--line); }
 .timeline-line:last-child:before { display: none; }
@@ -88,3 +94,20 @@ textarea.field { min-height: 108px; padding: 13px 15px; resize: vertical; }
 @keyframes liquid-sweep { 0%, 28% { transform: translateX(-80%) rotate(18deg); opacity: 0; } 42% { opacity: 1; } 68%, 100% { transform: translateX(240%) rotate(18deg); opacity: 0; } }
 @keyframes orb-float { 0%, 100% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(-18px, 16px, 0) scale(1.08); } }
 @keyframes reveal-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes skeleton-sweep { to { transform: translateX(100%); } }
+
+.boot-splash { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; background: #202a28; color: #eff1e9; animation: boot-exit .42s .78s cubic-bezier(.23,1,.32,1) forwards; }
+.boot-splash__glow { position: absolute; width: min(62vw, 520px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(188,92,53,.24), transparent 66%); filter: blur(14px); animation: boot-glow 1.2s ease-out both; }
+.boot-brand { position: relative; display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: center; animation: boot-brand-in .62s cubic-bezier(.23,1,.32,1) both; }
+.boot-brand__mark { display: grid; width: 58px; height: 58px; place-items: center; background: #bc5c35; color: white; font-size: 26px; font-weight: 900; box-shadow: 0 0 0 1px rgba(255,255,255,.18), 0 0 38px rgba(233,160,125,.2); animation: boot-mark .9s cubic-bezier(.23,1,.32,1) both; }
+.boot-brand__name { align-self: end; font-family: "Space Grotesk", "Manrope", sans-serif; font-size: clamp(24px, 5vw, 38px); font-weight: 700; letter-spacing: -.07em; line-height: .8; }
+.boot-brand__caption { grid-column: 2; margin-top: 2px; color: rgba(239,241,233,.55); font-size: 8px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+.boot-progress { position: absolute; bottom: 13vh; width: min(180px, 48vw); height: 2px; overflow: hidden; background: rgba(255,255,255,.14); }
+.boot-progress span { display: block; width: 100%; height: 100%; transform: translateX(-100%); background: #e9a07d; animation: boot-progress 1s .08s cubic-bezier(.23,1,.32,1) forwards; }
+.logo-mark { transition: transform .22s cubic-bezier(.23,1,.32,1), box-shadow .22s ease; }
+a:hover .logo-mark { transform: rotate(-5deg) translateY(-1px); box-shadow: 0 6px 18px rgba(188,92,53,.22); }
+@keyframes boot-brand-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes boot-mark { 0% { opacity: 0; transform: scale(.72) rotate(-10deg); } 70% { transform: scale(1.06) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes boot-glow { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+@keyframes boot-progress { to { transform: translateX(0); } }
+@keyframes boot-exit { to { opacity: 0; visibility: hidden; pointer-events: none; } }

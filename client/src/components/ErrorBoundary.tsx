@@ -31,13 +31,12 @@ class ErrorBoundary extends Component<Props, State> {
               className="text-destructive mb-6 flex-shrink-0"
             />
 
-            <h2 className="text-xl mb-4">An unexpected error occurred.</h2>
-
-            <div className="p-4 w-full rounded bg-muted overflow-auto mb-6">
-              <pre className="text-sm text-muted-foreground whitespace-break-spaces">
-                {this.state.error?.stack}
-              </pre>
-            </div>
+            <h2 className="text-xl mb-4">Что-то пошло не так</h2>
+            <p className="mb-6 max-w-lg text-center text-muted-foreground">Страница столкнулась с неожиданной ошибкой. Обновите её — обычно это помогает продолжить работу.</p>
+            <details className="mb-6 w-full rounded bg-muted p-4">
+              <summary className="cursor-pointer text-sm font-semibold">Показать технические детали</summary>
+              <pre className="mt-4 max-h-48 overflow-auto whitespace-break-spaces text-sm text-muted-foreground">{this.state.error?.stack}</pre>
+            </details>
 
             <button
               onClick={() => window.location.reload()}
@@ -48,7 +47,7 @@ class ErrorBoundary extends Component<Props, State> {
               )}
             >
               <RotateCcw size={16} />
-              Reload Page
+              Обновить страницу
             </button>
           </div>
         </div>

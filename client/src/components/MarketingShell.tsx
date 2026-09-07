@@ -18,7 +18,7 @@ export default function MarketingShell({ children, dark = false }: { children: R
       <header className="relative z-30 border-b border-current/15">
         <div className="mx-auto flex max-w-[1360px] items-center justify-between px-5 py-5 lg:px-9">
           <Link href="/" className="flex items-center gap-3" aria-label="BuildScope AI">
-            <span className="grid h-8 w-8 place-items-center bg-[#bc5c35] font-black text-white">B</span>
+            <span className="logo-mark grid h-8 w-8 place-items-center bg-[#bc5c35] font-black text-white">B</span>
             <div className="leading-none"><strong className="display block text-[17px] font-bold tracking-[-.06em]">BuildScope</strong><span className="mt-1 block text-[8px] font-extrabold uppercase tracking-[.18em] opacity-60">private construction</span></div>
           </Link>
           <nav className="hidden items-center gap-6 lg:flex">
