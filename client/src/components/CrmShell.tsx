@@ -35,9 +35,12 @@ export default function CrmShell({
     <div className="crm-shell flex min-h-screen">
       <aside className="crm-sidebar fixed inset-y-0 left-0 z-20 hidden w-[238px] flex-col border-r border-white/10 lg:flex">
         <div className="flex h-[75px] items-center gap-3 border-b border-white/10 px-6">
-          <span className="grid h-8 w-8 place-items-center bg-[#bc5c35] text-sm font-black text-white">
-            A
-          </span>
+          <img
+            src="/images/arqa-house-mark.jpg"
+            alt=""
+            aria-hidden="true"
+            className="h-8 w-8 shrink-0 object-cover"
+          />
           <div className="leading-none">
             <strong className="display text-[16px] font-bold tracking-[.02em] text-white">
               ARQA HOUSE
@@ -86,9 +89,12 @@ export default function CrmShell({
       <main className="min-w-0 flex-1 lg:ml-[238px]">
         <header className="sticky top-0 z-10 flex h-[75px] items-center justify-between border-b border-[#18201f]/10 bg-[#f1f0eb]/95 px-5 backdrop-blur lg:px-8">
           <div className="flex items-center gap-3 lg:hidden">
-            <span className="grid h-8 w-8 place-items-center bg-[#bc5c35] text-sm font-black text-white">
-              A
-            </span>
+            <img
+              src="/images/arqa-house-mark.jpg"
+              alt=""
+              aria-hidden="true"
+              className="h-8 w-8 shrink-0 object-cover"
+            />
             <span className="display text-lg font-bold">ARQA HOUSE</span>
           </div>
           <h1 className="display hidden text-2xl font-semibold lg:block">

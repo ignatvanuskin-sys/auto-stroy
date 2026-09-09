@@ -103,11 +103,11 @@ function PageIntro({
   children?: React.ReactNode;
 }) {
   return (
-    <section className="border-b border-[#18201f]/15 px-5 py-16 lg:px-9 lg:py-24">
+    <section className="border-b border-[#18201f]/15 px-4 py-12 sm:px-5 sm:py-16 lg:px-9 lg:py-24">
       <div className="mx-auto grid max-w-[1360px] gap-10 lg:grid-cols-[1.08fr_.62fr]">
         <div>
           <p className="eyebrow">{eyebrow}</p>
-          <h1 className="display mt-5 max-w-3xl text-5xl font-semibold leading-[.93] sm:text-7xl">
+          <h1 className="display mt-5 max-w-3xl text-[42px] font-semibold leading-[.93] sm:text-7xl">
             {title}
           </h1>
         </div>
@@ -250,13 +250,13 @@ export function ProjectsPage() {
           }
           text="От компактных каркасных домов до монолитных резиденций в предгорьях. Показываем логику проекта, а не только красивый фасад."
         />
-        <section className="px-5 py-16 lg:px-9 lg:py-24">
+        <section className="px-4 py-12 sm:px-5 sm:py-16 lg:px-9 lg:py-24">
           <div className="mx-auto grid max-w-[1360px] gap-y-14">
             {portfolio.map((project, index) => (
               <Link
                 href={`/projects/${project.slug}`}
                 key={project.slug}
-                className="group grid gap-6 border-b border-[#18201f]/15 pb-10 lg:grid-cols-[1.15fr_.85fr] lg:gap-12"
+                className="group grid gap-5 border-b border-[#18201f]/15 pb-8 sm:gap-6 sm:pb-10 lg:grid-cols-[1.15fr_.85fr] lg:gap-12"
               >
                 <div className="aspect-[16/10] overflow-hidden bg-[#dfdbd1]">
                   <img
@@ -270,13 +270,13 @@ export function ProjectsPage() {
                     <p className="eyebrow">
                       0{index + 1} · {project.tier}
                     </p>
-                    <h2 className="display mt-4 text-4xl font-semibold sm:text-5xl">
+                    <h2 className="display mt-4 text-3xl font-semibold sm:text-5xl">
                       {project.title}
                     </h2>
-                    <p className="mt-6 max-w-md text-sm leading-7 text-[#64706d]">
+                    <p className="mt-5 max-w-md text-sm leading-7 text-[#64706d] sm:mt-6">
                       {project.description}
                     </p>
-                    <div className="mt-8 flex flex-wrap gap-2">
+                    <div className="mt-6 flex flex-wrap gap-2 sm:mt-8">
                       {[
                         [Ruler, project.area],
                         [MapPin, project.location],
@@ -285,7 +285,7 @@ export function ProjectsPage() {
                       ].map(([Icon, label]) => (
                         <span
                           key={label as string}
-                          className="inline-flex items-center gap-2 border border-[#18201f]/15 px-3 py-2 text-xs font-bold"
+                          className="inline-flex min-h-9 items-center gap-2 border border-[#18201f]/15 px-2.5 py-2 text-[11px] font-bold sm:px-3 sm:text-xs"
                         >
                           <Icon size={14} />
                           {label as string}

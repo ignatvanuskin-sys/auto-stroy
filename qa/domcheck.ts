@@ -4,14 +4,22 @@ import { chromium } from "playwright-core";
 
 const BASE = "https://auto-stroy-production.up.railway.app";
 
-async function checkRoute(page: import("playwright-core").Page, route: string, viewportTag: string) {
+async function checkRoute(
+  page: import("playwright-core").Page,
+  route: string,
+  viewportTag: string
+) {
   await page.goto(BASE + route, { waitUntil: "networkidle" });
   await page.waitForTimeout(700);
   const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - document.documentElement.clientWidth
+    () =>
+      document.documentElement.scrollWidth -
+      document.documentElement.clientWidth
   );
   const brokenImages = await page.evaluate(() =>
-    [...document.images].filter(i => !i.complete || i.naturalWidth === 0).map(i => i.src.slice(-50))
+    [...document.images]
+      .filter(i => !i.complete || i.naturalWidth === 0)
+      .map(i => i.src.slice(-50))
   );
   const badText = await page.evaluate(() => {
     const t = document.body.innerText;
@@ -21,15 +29,23 @@ async function checkRoute(page: import("playwright-core").Page, route: string, v
     if (/\[object Object\]/.test(t)) hits.push("[object Object]");
     return hits;
   });
-  const emptyButtons = await page.evaluate(() =>
-    [...document.querySelectorAll("button, a")].filter(el => (el.textContent ?? "").trim() === "" && !(el as HTMLElement).getAttribute("aria-label")).length
+  const emptyButtons = await page.evaluate(
+    () =>
+      [...document.querySelectorAll("button, a")].filter(
+        el =>
+          (el.textContent ?? "").trim() === "" &&
+          !(el as HTMLElement).getAttribute("aria-label")
+      ).length
   );
   console.log(
     `${viewportTag} ${route} | overflow:${overflow} | brokenImg:${brokenImages.length ? brokenImages.join(",") : 0} | badText:${badText.join("+") || "clean"} | unlabeledEmpty:${emptyButtons}`
   );
 }
 
-async function run(viewports: Array<[number, number, string]>, routes: string[]) {
+async function run(
+  viewports: Array<[number, number, string]>,
+  routes: string[]
+) {
   const browser = await chromium.launch({ channel: "msedge", headless: true });
   for (const [width, height, tag] of viewports) {
     const context = await browser.newContext({ viewport: { width, height } });

@@ -42,10 +42,10 @@ const materialCoefficients: Record<string, number> = {
 };
 
 const regionalCoefficients: Record<string, number> = {
-  "Алматы": 1.06,
-  "Талгар": 1.05,
-  "Каскелен": 1.02,
-  "Конаев": 1,
+  Алматы: 1.06,
+  Талгар: 1.05,
+  Каскелен: 1.02,
+  Конаев: 1,
   "Алматинская обл.": 0.98,
 };
 

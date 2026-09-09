@@ -362,7 +362,13 @@ export default function Calculator() {
                     </label>
                     <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
                       {regions.map(item =>
-                        choice(item, region === item, () => setRegion(item), undefined, item)
+                        choice(
+                          item,
+                          region === item,
+                          () => setRegion(item),
+                          undefined,
+                          item
+                        )
                       )}
                     </div>
                   </div>
@@ -413,8 +419,13 @@ export default function Calculator() {
                     <div className="mt-3 grid grid-cols-2 gap-3">
                       {["Плитный", "Ленточный", "Свайный", "Не знаю"].map(
                         item =>
-                          choice(item, foundation === item, () =>
-                            setFoundation(item), undefined, item)
+                          choice(
+                            item,
+                            foundation === item,
+                            () => setFoundation(item),
+                            undefined,
+                            item
+                          )
                       )}
                     </div>
                     <p className="mt-8 text-xs font-extrabold uppercase tracking-[.12em] text-[#64706d]">
@@ -428,8 +439,13 @@ export default function Calculator() {
                         "Электрика",
                         "Тёплый пол",
                       ].map(item =>
-                        choice(item, engineering.includes(item), () =>
-                          toggleEngineering(item), undefined, item)
+                        choice(
+                          item,
+                          engineering.includes(item),
+                          () => toggleEngineering(item),
+                          undefined,
+                          item
+                        )
                       )}
                     </div>
                     <p className="mt-8 text-xs font-extrabold uppercase tracking-[.12em] text-[#64706d]">
@@ -453,8 +469,13 @@ export default function Calculator() {
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
                       {["ASAP", "3–6 мес", "6–12 мес", "Изучаю рынок"].map(
                         item =>
-                          choice(item, desiredStart === item, () =>
-                            setDesiredStart(item), undefined, item)
+                          choice(
+                            item,
+                            desiredStart === item,
+                            () => setDesiredStart(item),
+                            undefined,
+                            item
+                          )
                       )}
                     </div>
                     <p className="mt-8 text-xs font-extrabold uppercase tracking-[.12em] text-[#64706d]">
@@ -470,8 +491,13 @@ export default function Calculator() {
                         "80+ млн ₸",
                         "Не готов озвучивать",
                       ].map(item =>
-                        choice(item, budgetRange === item, () =>
-                          setBudgetRange(item), undefined, item)
+                        choice(
+                          item,
+                          budgetRange === item,
+                          () => setBudgetRange(item),
+                          undefined,
+                          item
+                        )
                       )}
                     </div>
                   </div>
@@ -510,8 +536,13 @@ export default function Calculator() {
                       <div className="mt-3 grid grid-cols-3 gap-3">
                         {(["Звонок", "WhatsApp", "Telegram"] as const).map(
                           item =>
-                            choice(item, preferredChannel === item, () =>
-                              setPreferredChannel(item), undefined, item)
+                            choice(
+                              item,
+                              preferredChannel === item,
+                              () => setPreferredChannel(item),
+                              undefined,
+                              item
+                            )
                         )}
                       </div>
                     </div>

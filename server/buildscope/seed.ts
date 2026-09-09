@@ -29,33 +29,103 @@ function mulberry32(seed: number) {
   };
 }
 const random = mulberry32(20260906);
-const pick = <T,>(items: readonly T[]): T => items[Math.floor(random() * items.length)]!;
+const pick = <T>(items: readonly T[]): T =>
+  items[Math.floor(random() * items.length)]!;
 const intBetween = (min: number, max: number) =>
   min + Math.floor(random() * (max - min + 1));
 
-const REGIONS = ["Алматы", "Талгар", "Каскелен", "Конаев", "Алматинская обл."] as const;
-const MATERIALS = ["Кирпич", "Газоблок", "Каркас", "Брус", "Не уверен"] as const;
+const REGIONS = [
+  "Алматы",
+  "Талгар",
+  "Каскелен",
+  "Конаев",
+  "Алматинская обл.",
+] as const;
+const MATERIALS = [
+  "Кирпич",
+  "Газоблок",
+  "Каркас",
+  "Брус",
+  "Не уверен",
+] as const;
 const FOUNDATIONS = ["Плитный", "Ленточный", "Свайный", "Не знаю"] as const;
 const STARTS = ["ASAP", "3–6 мес", "6–12 мес", "Изучаю рынок"] as const;
-const SOURCES = ["Website", "Instagram", "Referral", "Telegram", "Manual"] as const;
+const SOURCES = [
+  "Website",
+  "Instagram",
+  "Referral",
+  "Telegram",
+  "Manual",
+] as const;
 const BUDGETS_SMALL = ["20–25 млн ₸", "25–30 млн ₸", "30–35 млн ₸"] as const;
 const BUDGETS_MEDIUM = ["35–40 млн ₸", "40–55 млн ₸"] as const;
 const BUDGETS_LARGE = ["55–70 млн ₸", "70–85 млн ₸", "90+ млн ₸"] as const;
 const PROJECT_TYPES = ["Дом", "Коттедж", "Дача"] as const;
 
 const FIRST_NAMES = [
-  "Данияр", "Асель", "Айгуль", "Марат", "София", "Руслан", "Жанна", "Тимур",
-  "Карина", "Ермек", "Айша", "Арман", "Илья", "Дана", "Нурлан", "Мадина",
-  "Санжар", "Алия", "Виктор", "Камила", "Ерасыл", "Тогжан", "Ислам", "Дария",
+  "Данияр",
+  "Асель",
+  "Айгуль",
+  "Марат",
+  "София",
+  "Руслан",
+  "Жанна",
+  "Тимур",
+  "Карина",
+  "Ермек",
+  "Айша",
+  "Арман",
+  "Илья",
+  "Дана",
+  "Нурлан",
+  "Мадина",
+  "Санжар",
+  "Алия",
+  "Виктор",
+  "Камила",
+  "Ерасыл",
+  "Тогжан",
+  "Ислам",
+  "Дария",
 ] as const;
 const LAST_NAMES = [
-  "Абенов", "Смагулова", "Иманбаев", "Турсынова", "Жумабаева", "Кенжебаев",
-  "Оспанова", "Беляев", "Сатыбалдиева", "Алиев", "Мухамедиева", "Панфилов",
-  "Ахметова", "Сулейменов", "Орлова", "Досжан", "Ким", "Уразалина", "Гринев",
-  "Сейсенова", "Бекболат", "Литвинова", "Кайрат", "Есенгельды",
+  "Абенов",
+  "Смагулова",
+  "Иманбаев",
+  "Турсынова",
+  "Жумабаева",
+  "Кенжебаев",
+  "Оспанова",
+  "Беляев",
+  "Сатыбалдиева",
+  "Алиев",
+  "Мухамедиева",
+  "Панфилов",
+  "Ахметова",
+  "Сулейменов",
+  "Орлова",
+  "Досжан",
+  "Ким",
+  "Уразалина",
+  "Гринев",
+  "Сейсенова",
+  "Бекболат",
+  "Литвинова",
+  "Кайрат",
+  "Есенгельды",
 ] as const;
 
-const PIPELINE_MIX: Array<"New" | "Qualified" | "Contacted" | "Site Visit" | "Estimate Sent" | "Proposal Sent" | "Negotiation" | "Won" | "Lost"> = [
+const PIPELINE_MIX: Array<
+  | "New"
+  | "Qualified"
+  | "Contacted"
+  | "Site Visit"
+  | "Estimate Sent"
+  | "Proposal Sent"
+  | "Negotiation"
+  | "Won"
+  | "Lost"
+> = [
   ...Array<"New">(6).fill("New"),
   ...Array<"Qualified">(5).fill("Qualified"),
   ...Array<"Contacted">(5).fill("Contacted"),
@@ -316,21 +386,33 @@ function generatedLead(status: (typeof PIPELINE_MIX)[number]) {
   const name = `${FIRST_NAMES[nameIndex]} ${LAST_NAMES[Math.floor(random() * LAST_NAMES.length)]}`;
   const phone = `+7 70${intBetween(0, 9)} ${String(intBetween(100, 999))} ${String(intBetween(10, 99))} ${String(intBetween(10, 99))}`;
   const areaM2 = intBetween(8, 32) * 10; // 80–320 м²
-  const floors = areaM2 >= 220 ? intBetween(2, 3) : areaM2 <= 130 ? 1 : intBetween(1, 2);
+  const floors =
+    areaM2 >= 220 ? intBetween(2, 3) : areaM2 <= 130 ? 1 : intBetween(1, 2);
   const finishTier =
-    areaM2 >= 260 ? "premium" : areaM2 <= 140 ? (random() < 0.55 ? "economy" : "standard") : "standard";
+    areaM2 >= 260
+      ? "premium"
+      : areaM2 <= 140
+        ? random() < 0.55
+          ? "economy"
+          : "standard"
+        : "standard";
   const budgetPool =
     finishTier === "premium"
       ? BUDGETS_LARGE
       : finishTier === "economy"
         ? BUDGETS_SMALL
         : BUDGETS_MEDIUM;
-  const budgetRange = random() < 0.12 ? "Не готов озвучивать" : pick(budgetPool);
+  const budgetRange =
+    random() < 0.12 ? "Не готов озвучивать" : pick(budgetPool);
   const desiredStart = pick(STARTS);
   const hasLand = random() < 0.62;
-  const engineering = ["Отопление", "Вода", "Канализация", "Электрика", "Тёплый пол"].filter(
-    () => random() < 0.55
-  );
+  const engineering = [
+    "Отопление",
+    "Вода",
+    "Канализация",
+    "Электрика",
+    "Тёплый пол",
+  ].filter(() => random() < 0.55);
   const aiSummary = `${name} рассматривает ${pick(PROJECT_TYPES).toLowerCase()} ${areaM2} м². ${hasLand ? "Участок есть." : "Участок подбирается."} Старт: ${desiredStart}.`;
 
   return {
@@ -354,7 +436,13 @@ function generatedLead(status: (typeof PIPELINE_MIX)[number]) {
 }
 
 function bandOf(score: number) {
-  return score >= 81 ? "very_hot" : score >= 61 ? "hot" : score >= 31 ? "warm" : "cold";
+  return score >= 81
+    ? "very_hot"
+    : score >= 61
+      ? "hot"
+      : score >= 31
+        ? "warm"
+        : "cold";
 }
 
 function scoreFor(lead: {
@@ -381,7 +469,8 @@ function scoreFor(lead: {
     region: lead.region,
     finishTier: lead.finishTier,
     source: "Website",
-    intent: lead.desiredStart === "Изучаю рынок" ? "researcher" : "genuine_buyer",
+    intent:
+      lead.desiredStart === "Изучаю рынок" ? "researcher" : "genuine_buyer",
     confidence: lead.desiredStart === "Изучаю рынок" ? 58 : 82,
   });
   return { estimate, scoring };
@@ -411,7 +500,9 @@ function followupsFor(status: string, ageDays: number) {
     return base.map((item, i) => ({
       type: `day_${item.day}`,
       scheduledAt: daysAgo(Math.max(1, ageDays - item.day)),
-      status: (ageDays - item.day > 1 ? "sent" : "pending") as "sent" | "pending",
+      status: (ageDays - item.day > 1 ? "sent" : "pending") as
+        | "sent"
+        | "pending",
       channel,
       messageText: item.text,
     }));
@@ -519,7 +610,8 @@ async function seed() {
       source: lead.source,
       name: lead.name,
       phone: lead.phone,
-      preferredChannel: random() < 0.5 ? "Telegram" : random() < 0.5 ? "Звонок" : "WhatsApp",
+      preferredChannel:
+        random() < 0.5 ? "Telegram" : random() < 0.5 ? "Звонок" : "WhatsApp",
       region: lead.region,
       projectType: lead.projectType,
       areaM2: lead.areaM2,
@@ -533,7 +625,8 @@ async function seed() {
       desiredStart: lead.desiredStart,
       rawNotes: null,
       aiSummary: lead.aiSummary,
-      aiIntent: lead.desiredStart === "Изучаю рынок" ? "researcher" : "genuine_buyer",
+      aiIntent:
+        lead.desiredStart === "Изучаю рынок" ? "researcher" : "genuine_buyer",
       aiConfidence: score >= 61 ? 84 : 58,
       missingFields: [],
       needsManualReview: scoring.budgetMismatch,
@@ -574,7 +667,14 @@ async function seed() {
         leadId,
         actorType: "ai",
         type: "qualification_completed",
-        payload: { intent: lead.desiredStart === "Изучаю рынок" ? "researcher" : "genuine_buyer", confidence: score >= 61 ? 84 : 58, source: "rule" },
+        payload: {
+          intent:
+            lead.desiredStart === "Изучаю рынок"
+              ? "researcher"
+              : "genuine_buyer",
+          confidence: score >= 61 ? 84 : 58,
+          source: "rule",
+        },
         createdAt,
       },
       {
@@ -600,16 +700,27 @@ async function seed() {
     ]);
 
     // Proposals for the deep-pipeline stages: 10–15 across draft/sent/viewed.
-    if (["Estimate Sent", "Proposal Sent", "Negotiation", "Won"].includes(lead.status)) {
+    if (
+      ["Estimate Sent", "Proposal Sent", "Negotiation", "Won"].includes(
+        lead.status
+      )
+    ) {
       const proposalStatus =
-        lead.status === "Won" ? "viewed" : lead.status === "Negotiation" ? "sent" : lead.status === "Proposal Sent" ? "sent" : "draft";
+        lead.status === "Won"
+          ? "viewed"
+          : lead.status === "Negotiation"
+            ? "sent"
+            : lead.status === "Proposal Sent"
+              ? "sent"
+              : "draft";
       const proposalNumber = `BS-${String(leadId).padStart(4, "0")}-2026`;
       await db.insert(proposals).values({
         companyId,
         leadId,
         estimateId: estimateResult.insertId,
         status: proposalStatus,
-        sentAt: proposalStatus === "draft" ? null : daysAgo(Math.max(1, ageDays - 2)),
+        sentAt:
+          proposalStatus === "draft" ? null : daysAgo(Math.max(1, ageDays - 2)),
         createdAt: daysAgo(Math.max(1, ageDays - 2)),
       });
       await db.insert(leadActivities).values({

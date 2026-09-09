@@ -104,7 +104,7 @@ export default function Home() {
   return (
     <MarketingShell dark>
       <main>
-        <section className="relative isolate min-h-[730px] overflow-hidden border-b border-white/15">
+        <section className="relative isolate min-h-[650px] overflow-hidden border-b border-white/15 sm:min-h-[730px]">
           <img
             src="/images/hero.jpg"
             alt="Современный дом ARQA HOUSE у гор"
@@ -112,12 +112,12 @@ export default function Home() {
           />
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(15,22,21,.92)_0%,rgba(15,22,21,.68)_42%,rgba(15,22,21,.13)_78%),linear-gradient(0deg,rgba(15,22,21,.45),transparent_45%)]" />
           <OrbField />
-          <div className="mx-auto flex min-h-[665px] max-w-[1360px] flex-col justify-between px-5 pb-8 pt-20 lg:px-9 lg:pb-10 lg:pt-28">
+          <div className="mx-auto flex min-h-[610px] max-w-[1360px] flex-col justify-between px-4 pb-7 pt-16 sm:min-h-[665px] sm:px-5 sm:pb-8 sm:pt-20 lg:px-9 lg:pb-10 lg:pt-28">
             <div className="motion-reveal max-w-[690px]">
               <p className="eyebrow text-[#e9a07d]">
                 Частные дома под ключ · Алматы и область
               </p>
-              <h1 className="display mt-5 text-[48px] font-semibold leading-[.94] tracking-[-.07em] text-white sm:text-[67px] lg:text-[86px]">
+              <h1 className="display mt-5 text-[42px] font-semibold leading-[.94] tracking-[-.07em] text-white sm:text-[67px] lg:text-[86px]">
                 Дом, который
                 <br />
                 начинается с<br />
@@ -129,19 +129,22 @@ export default function Home() {
                 гадаем.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <GlowingFrame className="w-fit" tone="dark">
-                  <Link href="/calculator" className="btn-primary">
+                <GlowingFrame className="w-full sm:w-fit" tone="dark">
+                  <Link
+                    href="/calculator"
+                    className="btn-primary w-full sm:w-auto"
+                  >
                     Рассчитать стоимость дома за 2 минуты{" "}
                     <ArrowRight size={17} />
                   </Link>
                 </GlowingFrame>
-                <Link href="/projects" className="btn-ghost">
+                <Link href="/projects" className="btn-ghost w-full sm:w-auto">
                   Смотреть проекты <ArrowDownRight size={17} />
                 </Link>
               </div>
             </div>
-            <div className="motion-reveal motion-reveal--2 grid max-w-[780px] grid-cols-3 divide-x divide-white/20 border-y border-white/20 py-4 text-white">
-              <div className="px-2">
+            <div className="motion-reveal motion-reveal--2 grid max-w-[780px] grid-cols-1 divide-y divide-white/20 border-y border-white/20 py-1 text-white sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:py-4">
+              <div className="flex items-center justify-between px-2 py-3 sm:block sm:py-0">
                 <div className="display text-2xl font-bold">
                   <CountUp value={9} suffix=" лет" />
                 </div>
@@ -149,7 +152,7 @@ export default function Home() {
                   на рынке — с 2016 года
                 </div>
               </div>
-              <div className="px-4">
+              <div className="flex items-center justify-between px-2 py-3 sm:block sm:px-4 sm:py-0">
                 <div className="display text-2xl font-bold">
                   <CountUp value={180} suffix="+" />
                 </div>
@@ -157,7 +160,7 @@ export default function Home() {
                   построенных домов
                 </div>
               </div>
-              <div className="px-4">
+              <div className="flex items-center justify-between px-2 py-3 sm:block sm:px-4 sm:py-0">
                 <div className="display text-2xl font-bold">
                   <CountUp value={6} />
                 </div>

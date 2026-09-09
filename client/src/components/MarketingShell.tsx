@@ -28,20 +28,23 @@ export default function MarketingShell({
       }
     >
       <header className="relative z-30 border-b border-current/15">
-        <div className="mx-auto flex max-w-[1360px] items-center justify-between px-5 py-5 lg:px-9">
+        <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-3 px-4 py-4 sm:px-5 sm:py-5 lg:px-9">
           <Link
             href="/"
-            className="flex items-center gap-3"
+            className="min-w-0 flex items-center gap-2.5 sm:gap-3"
             aria-label="ARQA HOUSE"
           >
-            <span className="grid h-8 w-8 place-items-center bg-[#bc5c35] font-black text-white">
-              A
-            </span>
-            <div className="leading-none">
-              <strong className="display block text-[17px] font-bold tracking-[.02em]">
+            <img
+              src="/images/arqa-house-mark.jpg"
+              alt=""
+              aria-hidden="true"
+              className="h-8 w-8 shrink-0 object-cover sm:h-9 sm:w-9"
+            />
+            <div className="min-w-0 leading-none">
+              <strong className="display block truncate text-[15px] font-bold tracking-[.02em] sm:text-[17px]">
                 ARQA HOUSE
               </strong>
-              <span className="mt-1 block text-[8px] font-extrabold uppercase tracking-[.18em] opacity-60">
+              <span className="mt-1 hidden text-[8px] font-extrabold uppercase tracking-[.18em] opacity-60 sm:block">
                 дома под ключ · алматы
               </span>
             </div>
@@ -72,7 +75,7 @@ export default function MarketingShell({
           <button
             aria-label={open ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={open}
-            className="grid h-10 w-10 place-items-center border border-current/20 lg:hidden"
+            className="grid h-10 w-10 shrink-0 place-items-center border border-current/20 lg:hidden"
             onClick={() => setOpen(!open)}
           >
             {open ? <X size={18} /> : <Menu size={19} />}
@@ -118,9 +121,12 @@ export default function MarketingShell({
         <div className="mx-auto grid max-w-[1360px] gap-8 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
-              <span className="grid h-7 w-7 place-items-center bg-[#bc5c35] text-xs font-black text-white">
-                A
-              </span>
+              <img
+                src="/images/arqa-house-mark.jpg"
+                alt=""
+                aria-hidden="true"
+                className="h-8 w-8 object-cover"
+              />
               <strong className="display text-lg">ARQA HOUSE</strong>
             </div>
             <p className="mt-4 max-w-sm text-xs leading-6 opacity-65">

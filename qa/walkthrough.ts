@@ -12,20 +12,33 @@ fs.mkdirSync(OUT, { recursive: true });
 
 const consoleErrors: string[] = [];
 const failedRequests: string[] = [];
-const step = async (page: import("playwright-core").Page, name: string, ms = 700) => {
+const step = async (
+  page: import("playwright-core").Page,
+  name: string,
+  ms = 700
+) => {
   await page.waitForTimeout(ms);
   await page.screenshot({ path: path.join(OUT, `${name}.png`) });
   console.log(`shot: ${name}`);
 };
 
-async function attachWatchers(page: import("playwright-core").Page, tag: string) {
+async function attachWatchers(
+  page: import("playwright-core").Page,
+  tag: string
+) {
   page.on("console", msg => {
-    if (msg.type() === "error") consoleErrors.push(`[${tag}] ${msg.text().slice(0, 200)}`);
+    if (msg.type() === "error")
+      consoleErrors.push(`[${tag}] ${msg.text().slice(0, 200)}`);
   });
   page.on("response", res => {
-    if (res.status() >= 400) failedRequests.push(`[${tag}] ${res.status()} ${res.url().slice(0, 140)}`);
+    if (res.status() >= 400)
+      failedRequests.push(
+        `[${tag}] ${res.status()} ${res.url().slice(0, 140)}`
+      );
   });
-  page.on("pageerror", err => consoleErrors.push(`[${tag}] PAGEERROR ${String(err).slice(0, 200)}`));
+  page.on("pageerror", err =>
+    consoleErrors.push(`[${tag}] PAGEERROR ${String(err).slice(0, 200)}`)
+  );
 }
 
 async function desktopRun() {
@@ -55,13 +68,19 @@ async function desktopRun() {
   await page.click("nav >> text=О нас");
   await page.waitForTimeout(1100);
   await page.screenshot({ path: path.join(OUT, "03-about.png") });
-  for (let i = 0; i < 3; i++) { await page.mouse.wheel(0, 700); await page.waitForTimeout(500); }
+  for (let i = 0; i < 3; i++) {
+    await page.mouse.wheel(0, 700);
+    await page.waitForTimeout(500);
+  }
 
   // 3. Process
   await page.click("nav >> text=Процесс");
   await page.waitForTimeout(1100);
   await page.screenshot({ path: path.join(OUT, "04-process.png") });
-  for (let i = 0; i < 3; i++) { await page.mouse.wheel(0, 700); await page.waitForTimeout(450); }
+  for (let i = 0; i < 3; i++) {
+    await page.mouse.wheel(0, 700);
+    await page.waitForTimeout(450);
+  }
 
   // 4. FAQ (open two items)
   await page.click("nav >> text=FAQ");
@@ -120,7 +139,10 @@ async function desktopRun() {
   await page.goto(`${BASE}/crm/dashboard`, { waitUntil: "networkidle" });
   await page.waitForTimeout(1200);
   await page.screenshot({ path: path.join(OUT, "15-crm-dashboard.png") });
-  for (let i = 0; i < 2; i++) { await page.mouse.wheel(0, 700); await page.waitForTimeout(500); }
+  for (let i = 0; i < 2; i++) {
+    await page.mouse.wheel(0, 700);
+    await page.waitForTimeout(500);
+  }
 
   // 8. Leads kanban + table
   await page.goto(`${BASE}/crm/leads`, { waitUntil: "networkidle" });
@@ -137,13 +159,18 @@ async function desktopRun() {
   await page.click("text=Сгенерировать КП");
   await page.waitForTimeout(400);
   await page.screenshot({ path: path.join(OUT, "19-proposal-loading.png") });
-  await page.waitForSelector("text=Черновик КП создан", { timeout: 30000 }).catch(() => {});
+  await page
+    .waitForSelector("text=Черновик КП создан", { timeout: 30000 })
+    .catch(() => {});
   await page.waitForTimeout(1000);
   await page.screenshot({ path: path.join(OUT, "20-proposal-done.png") });
   await page.selectOption("select >> nth=0", { label: "Связались" });
   await page.waitForTimeout(900);
   await page.screenshot({ path: path.join(OUT, "21-status-changed.png") });
-  for (let i = 0; i < 3; i++) { await page.mouse.wheel(0, 700); await page.waitForTimeout(450); }
+  for (let i = 0; i < 3; i++) {
+    await page.mouse.wheel(0, 700);
+    await page.waitForTimeout(450);
+  }
   await page.screenshot({ path: path.join(OUT, "22-lead-followups.png") });
 
   // 10. Remaining CRM pages

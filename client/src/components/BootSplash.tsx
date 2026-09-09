@@ -4,7 +4,9 @@ export default function BootSplash() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
     if (reduced) {
       setVisible(false);
       return;
@@ -17,14 +19,22 @@ export default function BootSplash() {
   if (!visible) return null;
 
   return (
-    <div className="boot-splash" role="status" aria-label="ARQA HOUSE загружается">
+    <div
+      className="boot-splash"
+      role="status"
+      aria-label="ARQA HOUSE загружается"
+    >
       <div className="boot-splash__glow" aria-hidden="true" />
       <div className="boot-brand" aria-hidden="true">
-        <span className="boot-brand__mark">A</span>
-        <span className="boot-brand__name">ARQA HOUSE</span>
-        <span className="boot-brand__caption">дома под ключ · алматы</span>
+        <img
+          src="/images/arqa-house-logo.jpg"
+          alt=""
+          className="boot-brand__logo"
+        />
       </div>
-      <div className="boot-progress" aria-hidden="true"><span /></div>
+      <div className="boot-progress" aria-hidden="true">
+        <span />
+      </div>
     </div>
   );
 }

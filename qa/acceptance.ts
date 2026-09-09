@@ -3,7 +3,9 @@ import { chromium } from "playwright-core";
 
 const BASE = "https://auto-stroy-production.up.railway.app";
 const browser = await chromium.launch({ channel: "msedge", headless: true });
-const page = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
+const page = await (
+  await browser.newContext({ viewport: { width: 1440, height: 900 } })
+).newPage();
 
 // 1. Keyboard focus ring is visible on the primary CTA
 await page.goto(BASE + "/", { waitUntil: "networkidle" });
@@ -12,7 +14,10 @@ const focusInfo = await page.evaluate(() => {
   const el = document.activeElement as HTMLElement | null;
   if (!el) return { tag: "none", outline: "none" };
   const style = getComputedStyle(el);
-  return { tag: el.tagName + "." + (el.className || "").toString().slice(0, 24), outline: style.outlineStyle + " " + style.outlineWidth };
+  return {
+    tag: el.tagName + "." + (el.className || "").toString().slice(0, 24),
+    outline: style.outlineStyle + " " + style.outlineWidth,
+  };
 });
 console.log("focus-visible after 12 Tabs:", JSON.stringify(focusInfo));
 
@@ -41,7 +46,9 @@ const css = await page.evaluate(async () => {
       for (const rule of sheet.cssRules) {
         if (rule.cssText.includes(".btn-primary:disabled")) return "found";
       }
-    } catch { /* cross-origin */ }
+    } catch {
+      /* cross-origin */
+    }
   }
   return "missing";
 });
@@ -54,7 +61,9 @@ const fvr = await page.evaluate(() => {
       for (const rule of sheet.cssRules) {
         if (rule.cssText.includes("focus-visible")) return "found";
       }
-    } catch { /* cross-origin */ }
+    } catch {
+      /* cross-origin */
+    }
   }
   return "missing";
 });
