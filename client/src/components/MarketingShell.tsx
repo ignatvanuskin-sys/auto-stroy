@@ -60,12 +60,6 @@ export default function MarketingShell({
                 {label}
               </Link>
             ))}
-            <Link
-              href="/crm/dashboard"
-              className="text-[12px] font-bold opacity-70 transition-opacity hover:opacity-100"
-            >
-              CRM
-            </Link>
           </nav>
           <Link
             href="/calculator"
@@ -98,14 +92,6 @@ export default function MarketingShell({
                 {label}
               </Link>
             ))}
-            <Link
-              href="/crm/dashboard"
-              onClick={() => setOpen(false)}
-              tabIndex={open ? 0 : -1}
-              className="border-b border-current/10 py-4 text-sm font-bold"
-            >
-              CRM / demo
-            </Link>
             <Link
               href="/calculator"
               onClick={() => setOpen(false)}

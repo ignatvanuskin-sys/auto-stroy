@@ -377,8 +377,15 @@ export function ProjectDetailPage() {
                   [project.time, "строительство"],
                   [project.material, "материал"],
                 ].map(([value, label]) => (
-                  <div key={label} className="bg-[#eae6dc] p-5">
-                    <p className="display text-2xl font-bold">{value}</p>
+                  <div
+                    key={label}
+                    className="min-w-0 bg-[#eae6dc] p-5"
+                  >
+                    <p
+                      className={`display break-words font-bold leading-snug ${value.length > 10 ? "text-xl" : "text-2xl"}`}
+                    >
+                      {value}
+                    </p>
                     <p className="mt-2 text-[10px] font-extrabold uppercase tracking-[.12em] text-[#64706d]">
                       {label}
                     </p>
