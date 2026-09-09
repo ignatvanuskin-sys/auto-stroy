@@ -17,12 +17,12 @@ export default function BootSplash() {
   if (!visible) return null;
 
   return (
-    <div className="boot-splash" role="status" aria-label="BuildScope загружается">
+    <div className="boot-splash" role="status" aria-label="ARQA HOUSE загружается">
       <div className="boot-splash__glow" aria-hidden="true" />
       <div className="boot-brand" aria-hidden="true">
-        <span className="boot-brand__mark">B</span>
-        <span className="boot-brand__name">BuildScope</span>
-        <span className="boot-brand__caption">private construction</span>
+        <span className="boot-brand__mark">A</span>
+        <span className="boot-brand__name">ARQA HOUSE</span>
+        <span className="boot-brand__caption">дома под ключ · алматы</span>
       </div>
       <div className="boot-progress" aria-hidden="true"><span /></div>
     </div>
