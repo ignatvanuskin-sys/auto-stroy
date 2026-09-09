@@ -1135,7 +1135,7 @@ export function CrmSettings() {
                 Частное домостроение под ключ · Алматы, Бостандыкский р-н
               </p>
               <div className="mt-7 border-t border-white/15 pt-5 text-xs leading-6 text-white/75">
-                <p>info@arqahouse-demo.kz · +7 (700) 000-00-00 (demo)</p>
+                <p>info@arqahouse.kz · +7 (727) 000-00-00</p>
                 <p className="mt-3">
                   С 2016 года · 180+ домов · собственные монтажные бригады.
                 </p>

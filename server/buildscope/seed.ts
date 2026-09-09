@@ -561,8 +561,8 @@ async function seed() {
       tagline: "Дом, который начинается с точного расчёта",
       contacts: {
         address: "г. Алматы, Бостандыкский р-н",
-        phone: "+7 (700) 000-00-00 (DEMO)",
-        email: "info@arqahouse-demo.kz",
+        phone: "+7 (727) 000-00-00",
+        email: "info@arqahouse.kz",
       },
     },
   });

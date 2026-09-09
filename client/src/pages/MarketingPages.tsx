@@ -676,9 +676,9 @@ export function ContactsPage() {
                 подобрать удобное время для разговора о вашем проекте.
               </p>
               <div className="mt-10 grid gap-3 text-sm font-bold">
-                <a href="tel:+77000000000">+7 (700) 000-00-00 (DEMO)</a>
-                <a href="mailto:info@arqahouse-demo.kz">
-                  info@arqahouse-demo.kz
+                <a href="tel:+77270000000">+7 (727) 000-00-00</a>
+                <a href="mailto:info@arqahouse.kz">
+                  info@arqahouse.kz
                 </a>
                 <a href="#">Telegram</a>
               </div>

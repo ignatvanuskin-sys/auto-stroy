@@ -147,8 +147,8 @@ export default function MarketingShell({
           <div>
             <p className="eyebrow">Контакты</p>
             <div className="mt-4 grid gap-2 text-xs font-bold opacity-80">
-              <a href="tel:+77000000000">+7 (700) 000-00-00</a>
-              <a href="mailto:info@arqahouse-demo.kz">info@arqahouse-demo.kz</a>
+              <a href="tel:+77270000000">+7 (727) 000-00-00</a>
+              <a href="mailto:info@arqahouse.kz">info@arqahouse.kz</a>
               <Link href="/contacts">Алматы, Бостандыкский р-н</Link>
             </div>
           </div>
