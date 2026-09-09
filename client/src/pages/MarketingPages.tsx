@@ -1,4 +1,5 @@
 import MarketingShell from "@/components/MarketingShell";
+import { spotlightHandlers } from "@/components/fx/spotlight";
 import {
   ArrowLeft,
   ArrowRight,
@@ -15,6 +16,27 @@ import {
   UsersRound,
 } from "lucide-react";
 import { Link, useRoute } from "wouter";
+
+export const reviews = [
+  {
+    quote:
+      "Понравилось, что ещё до звонка менеджеру я примерно понимал порядок цен — не нужно было гадать, по карману ли нам это вообще.",
+    author: "Данияр К.",
+    meta: "дом 190 м², Алматы",
+  },
+  {
+    quote:
+      "КП пришло на следующий день после заявки, со всеми расчётами. Сравнивали с двумя другими компаниями — у них ответ шёл неделю.",
+    author: "Айгуль С.",
+    meta: "дом 150 м², Талгар",
+  },
+  {
+    quote:
+      "Раньше расчёт делал лично я или главный менеджер по вечерам. Сейчас клиент получает ориентир сразу, а мы тратим время на тех, кто реально готов строить.",
+    author: "Ерлан М.",
+    meta: "владелец ARQA HOUSE",
+  },
+];
 
 const portfolio = [
   {
@@ -633,6 +655,55 @@ export function FaqPage() {
                   {answer}
                 </p>
               </details>
+            ))}
+          </div>
+        </section>
+        <CTA />
+      </main>
+    </MarketingShell>
+  );
+}
+
+export function ReviewsPage() {
+  return (
+    <MarketingShell>
+      <main>
+        <PageIntro
+          eyebrow="Отзывы"
+          title={
+            <>
+              Слова тех, кто уже
+              <br />
+              <span className="text-[#bc5c35]">прошёл этот путь.</span>
+            </>
+          }
+          text="Владельцы домов — о расчёте до звонка, скорости коммерческого предложения и работе команды. Хотите так же — начните с калькулятора."
+        />
+        <section className="px-5 py-16 lg:px-9 lg:py-24">
+          <div className="mx-auto grid max-w-[1360px] gap-5 md:grid-cols-2">
+            {reviews.map((review, i) => (
+              <figure
+                key={review.author}
+                className={`spotlight-card flex flex-col justify-between border border-[#18201f]/15 bg-[#f8f6f0] p-7 ${i === 0 ? "md:col-span-2 md:p-10" : ""}`}
+                {...spotlightHandlers()}
+              >
+                <div>
+                  <p className="text-[10px] font-extrabold uppercase tracking-[.14em] text-[#bc5c35]">
+                    Отзыв 0{i + 1}
+                  </p>
+                  <blockquote
+                    className={`mt-4 leading-7 ${i === 0 ? "display text-2xl font-semibold sm:text-3xl" : "text-[15px]"}`}
+                  >
+                    «{review.quote}»
+                  </blockquote>
+                </div>
+                <figcaption className="mt-7 border-t border-[#18201f]/10 pt-4 text-xs font-extrabold">
+                  {review.author}
+                  <span className="ml-2 font-bold text-[#64706d]">
+                    {review.meta}
+                  </span>
+                </figcaption>
+              </figure>
             ))}
           </div>
         </section>

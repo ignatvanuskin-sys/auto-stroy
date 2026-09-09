@@ -18,6 +18,7 @@ import {
   ProcessPage,
   ProjectDetailPage,
   ProjectsPage,
+  ReviewsPage,
   ServicesPage,
 } from "@/pages/MarketingPages";
 import NotFound from "@/pages/NotFound";
@@ -35,6 +36,7 @@ function Router() {
       <Route path="/projects" component={ProjectsPage} />
       <Route path="/projects/:slug" component={ProjectDetailPage} />
       <Route path="/process" component={ProcessPage} />
+      <Route path="/reviews" component={ReviewsPage} />
       <Route path="/calculator" component={Calculator} />
       <Route path="/about" component={AboutPage} />
       <Route path="/faq" component={FaqPage} />

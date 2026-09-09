@@ -6,6 +6,7 @@ const nav = [
   ["Услуги", "/services"],
   ["Проекты", "/projects"],
   ["Процесс", "/process"],
+  ["Отзывы", "/reviews"],
   ["О нас", "/about"],
   ["FAQ", "/faq"],
 ];

@@ -18,6 +18,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Link } from "wouter";
+import { reviews } from "./MarketingPages";
 
 const projects = [
   {
@@ -43,20 +44,7 @@ const projects = [
   },
 ];
 
-const testimonials = [
-  {
-    quote:
-      "Понравилось, что ещё до звонка менеджеру я примерно понимал порядок цен — не нужно было гадать, по карману ли нам это вообще.",
-    author: "Данияр К.",
-    meta: "дом 190 м², Алматы",
-  },
-  {
-    quote:
-      "КП пришло на следующий день после заявки, со всеми расчётами. Сравнивали с двумя другими компаниями — у них ответ шёл неделю.",
-    author: "Айгуль С.",
-    meta: "дом 150 м², Талгар",
-  },
-];
+const testimonials = reviews.slice(0, 2);
 
 const process = [
   ["01", "Знакомство", "Разбираем ваши задачи, участок и желаемый образ дома."],
@@ -355,10 +343,15 @@ export default function Home() {
           <div className="mx-auto max-w-[1360px]">
             <Reveal>
               <p className="eyebrow">Отзывы владельцев домов</p>
-              <h2 className="display mt-4 max-w-2xl text-4xl font-semibold sm:text-5xl">
-                Слова тех, кто уже{" "}
-                <span className="text-[#bc5c35]">прошёл этот путь.</span>
-              </h2>
+              <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                <h2 className="display mt-4 max-w-2xl text-4xl font-semibold sm:text-5xl">
+                  Слова тех, кто уже{" "}
+                  <span className="text-[#bc5c35]">прошёл этот путь.</span>
+                </h2>
+                <Link href="/reviews" className="btn-outline w-fit">
+                  Все отзывы <ArrowRight size={16} />
+                </Link>
+              </div>
             </Reveal>
             <div className="mt-12 grid gap-5 md:grid-cols-2">
               {testimonials.map((t, i) => (
